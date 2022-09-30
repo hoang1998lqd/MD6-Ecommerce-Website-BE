@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,15 +31,15 @@ public class Orders {
 //    Trạng thái tồn tại của đơn hàng
 
     @Column(nullable = false)
-    private int status_exist;
+    private int status_exist = 1;
 
 //    Trạng thái vận chuyển hay xác nhận đơn hàng từ NCC hay Người dùng
     @Column(nullable = false)
-    private int status_order;
+    private int status_order = 0;
 
 //    Trạng thái thanh toán đơn hàng
     @Column(nullable = false)
-    private int status_pay;
+    private int status_pay = 0;
 
     @ManyToOne
     private Customer customer;

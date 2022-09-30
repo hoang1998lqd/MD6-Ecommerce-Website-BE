@@ -34,7 +34,7 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
-    private Integer status;
+    private Integer status = 1;
 
     private int discount;
 
