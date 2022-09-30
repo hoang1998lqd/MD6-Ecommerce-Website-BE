@@ -41,4 +41,5 @@ public class Customer {
     @ManyToMany(targetEntity = Role.class,fetch = FetchType.EAGER)
     private Set<Role> role;
 
+
 }

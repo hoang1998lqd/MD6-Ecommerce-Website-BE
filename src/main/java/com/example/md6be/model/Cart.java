@@ -1,6 +1,7 @@
 package com.example.md6be.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,9 +26,9 @@ public class Cart {
         this.items = items;
     }
 
-    @ManyToOne
+    @OneToOne // Đánh dấu có mỗi quan hệ 1-1 với Person ở phía dưới
+    @JoinColumn(name = "customer_id") // Liên kết với nhau qua khóa ngoại person_id
     private Customer customer;
-
     public Cart(List<Item> items) {
         this.items = items;
     }
