@@ -92,4 +92,9 @@ public class ProductController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/find-name-products")
+    private ResponseEntity<Optional<Product>> findByName(@RequestParam String name ){
+        return new ResponseEntity<>(iProduct.findAllByNameContaining("%" +name + "%"), HttpStatus.OK);
+    }
 }
