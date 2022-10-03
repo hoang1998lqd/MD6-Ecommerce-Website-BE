@@ -20,9 +20,9 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             nativeQuery = true)
     Long findIdNewProduct();
 
-    Optional<Product> findAllByNameContaining(@RequestParam String name);
+    List<Product> findAllByNameContaining(String name);
 
-    List<Product> findProductByPriceBetween ( Double priceMin, Double priceMax);
+    List<Product> findProductByPriceBetween (Double priceMin, Double priceMax);
 
     List<Product> findAllByCategoryId(long id);
 }

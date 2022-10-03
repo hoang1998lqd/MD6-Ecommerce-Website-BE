@@ -65,8 +65,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Optional<Product> findAllByNameContaining(@RequestParam String name) {
-        return productRepository.findAllByNameContaining("%" +name + "%");
+    public List<Product> findAllByNameContaining(String name) {
+        return productRepository.findAllByNameContaining(name);
     }
 
     @Override

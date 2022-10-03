@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface IProductService extends IGeneralService<Product> {
     Long findIdNewProduct();
     List<DTOProduct> getAllDTO();
-    Optional<Product> findAllByNameContaining(@RequestParam String name);
+    List<Product> findAllByNameContaining( String name);
     List<Product> findAllByCategoryId(long id);
     List<Product> findProductByPriceBetween ( Double priceMin, Double priceMax);
 }
