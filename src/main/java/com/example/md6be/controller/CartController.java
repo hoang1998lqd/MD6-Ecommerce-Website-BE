@@ -27,8 +27,8 @@ public class CartController {
     }
 
     @PostMapping
-    private ResponseEntity<Cart> createCart(@RequestBody Cart cart){
-        return new ResponseEntity<>(iCartService.save(cart),HttpStatus.CREATED);
+    private ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
+        return new ResponseEntity<>(iCartService.save(cart), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -53,24 +53,27 @@ public class CartController {
     @DeleteMapping("/item/{idItem}")
     private ResponseEntity<Void> deleteItemById(@PathVariable Long idItem) {
         itemService.delete(idItem);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     // Thêm Item vào giỏ hàng
     @PostMapping("/item")
-    private ResponseEntity<Item> createItem(@RequestBody Item item){
-        return new ResponseEntity<>(itemService.save(item),HttpStatus.CREATED);
+    private ResponseEntity<Item> createItem(@RequestBody Item item) {
+        return new ResponseEntity<>(itemService.save(item), HttpStatus.CREATED);
     }
 
 
     @PutMapping("/item")
-    private ResponseEntity<Item> updateProduct(@RequestBody Item item){
+    private ResponseEntity<Item> updateProduct(@RequestBody Item item) {
         Optional<Item> optionalItem = itemService.findById(item.getId());
-        if(optionalItem.isPresent()){
-            return new ResponseEntity<>(itemService.save(item),HttpStatus.OK);
+        if (optionalItem.isPresent()) {
+            return new ResponseEntity<>(itemService.save(item), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    //    checkout
+    // xem lịch sử đơn hàng
 
 }

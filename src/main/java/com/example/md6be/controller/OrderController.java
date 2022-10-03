@@ -1,8 +1,11 @@
 package com.example.md6be.controller;
 
 
+import com.example.md6be.model.Cart;
+import com.example.md6be.model.Item;
 import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
+import com.example.md6be.service.ICartService;
 import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/orders")
+    @RequestMapping("/api/orders")
 public class OrderController {
     @Autowired
     IOrder_detailService detailService;
@@ -23,6 +26,8 @@ public class OrderController {
     @Autowired
     IOrdersService ordersService;
 
+    @Autowired
+ICartService cartService;
     @GetMapping
     private ResponseEntity<List<Orders>> findAllOrder() {
         return new ResponseEntity<>(ordersService.findAll(), HttpStatus.OK);
@@ -34,27 +39,27 @@ public class OrderController {
     }
 
     @PostMapping
-    private ResponseEntity<Orders> createOrder(@RequestBody Orders order){
+    private ResponseEntity<Orders> createOrder(@RequestBody Orders order) {
         return new ResponseEntity<>(ordersService.save(order), HttpStatus.CREATED);
     }
 
 
     @PostMapping("/order-detail")
-    private ResponseEntity<Order_detail> createOrderDetail(@RequestBody Order_detail order_detail){
+    private ResponseEntity<Order_detail> createOrderDetail(@RequestBody Order_detail order_detail) {
         return new ResponseEntity<>(detailService.save(order_detail), HttpStatus.CREATED);
     }
 
     @PutMapping
-    private ResponseEntity<Orders> updateOrder(@RequestBody Orders order){
+    private ResponseEntity<Orders> updateOrder(@RequestBody Orders order) {
         Optional<Orders> ordersOptional = ordersService.findById(order.getId());
-        if(ordersOptional.isPresent()){
-            return new ResponseEntity<>(ordersService.save(order),HttpStatus.OK);
+        if (ordersOptional.isPresent()) {
+            return new ResponseEntity<>(ordersService.save(order), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{idCustomer}")
-    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idCustomer){
+    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idCustomer) {
         ordersService.delete(idCustomer);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -64,4 +69,14 @@ public class OrderController {
     private ResponseEntity<Long> findNewOrderId() {
         return new ResponseEntity<>(ordersService.findNewOrderId(), HttpStatus.OK);
     }
+    // xac nhan
+    @PostMapping("/checkout/{idCustomer}")
+    public ResponseEntity<?> pay(@PathVariable ("idCustomer") Long idCustomer) {
+        Optional<Orders> ordersOptional = ordersService.findById(idCustomer);
+        if(ordersOptional.isPresent()){
+            return new ResponseEntity<>(ordersService.save(ordersOptional.get() ), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }
