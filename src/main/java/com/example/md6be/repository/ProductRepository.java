@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,6 +22,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     Optional<Product> findAllByNameContaining(@RequestParam String name);
 
-    @Query(value = "select  * from product between priceMin= ?min and priceMax= ?max", nativeQuery = true)
-    Optional<Product> findBetweenPrice (@PathVariable Double priceMin, @PathVariable Double priceMax);
+    List<Product> findProductByPriceBetween ( Double priceMin, Double priceMax);
+
+    List<Product> findAllByCategoryId(long id);
 }

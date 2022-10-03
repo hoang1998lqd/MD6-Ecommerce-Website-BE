@@ -68,4 +68,15 @@ public class ProductService implements IProductService {
     public Optional<Product> findAllByNameContaining(@RequestParam String name) {
         return productRepository.findAllByNameContaining("%" +name + "%");
     }
+
+    @Override
+    public List<Product> findAllByCategoryId(long id) {
+        return productRepository.findAllByCategoryId(id);
+    }
+
+    @Override
+    public List<Product> findProductByPriceBetween(Double priceMin, Double priceMax) {
+        return productRepository.findProductByPriceBetween(priceMin,priceMax);
+    }
+
 }

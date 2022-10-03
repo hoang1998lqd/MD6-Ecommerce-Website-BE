@@ -97,4 +97,18 @@ public class ProductController {
     private ResponseEntity<Optional<Product>> findByName(@RequestParam String name ){
         return new ResponseEntity<>(iProduct.findAllByNameContaining("%" +name + "%"), HttpStatus.OK);
     }
+
+    @GetMapping("/find-by-id/{id}")
+    private ResponseEntity<List<Product>> findProductByCategoryId(@PathVariable("id") long id){
+        return new ResponseEntity<>(iProduct.findAllByCategoryId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-price/{priceMin}&{priceMax}")
+    private ResponseEntity<List<Product>> findProductByPrice(@PathVariable ("priceMin") Optional<Double> priceMin,
+                                                                 @PathVariable ("priceMax") Optional<Double> priceMax) {
+        Double min = priceMin.orElse(Double.MIN_VALUE);
+        Double max = priceMax.orElse(Double.MAX_VALUE);
+        List<Product> betweenPrice = iProduct.findProductByPriceBetween(min, max);
+        return new ResponseEntity<>(betweenPrice, HttpStatus.OK);
+    }
 }
