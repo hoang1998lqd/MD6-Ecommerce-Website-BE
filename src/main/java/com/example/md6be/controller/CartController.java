@@ -74,6 +74,8 @@ public class CartController {
     }
 
     //    checkout
-    // xem lịch sử đơn hàng
-
+//    @GetMapping("/item/{idCustomer}")
+//    private ResponseEntity<Item> pay(@PathVariable Long idCustomer){
+//
+//    }
 }

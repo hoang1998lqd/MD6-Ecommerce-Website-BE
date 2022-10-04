@@ -20,6 +20,6 @@ public class Voucher {
 
     private Double discount;
     @ManyToOne
-    private Category category;
+    private Customer customer;
 
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ICartService extends IGeneralService<Cart>{
     public List<Cart> findAllByCustomerId(Long id);
+
 }
