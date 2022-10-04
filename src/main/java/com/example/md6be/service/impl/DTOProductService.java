@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 @Service
 public class DTOProductService {
     @Autowired
@@ -18,29 +19,96 @@ public class DTOProductService {
     @Autowired
     private IProductService iProductService;
 
-    private List<ImageURL>getImageURLS (){
+    private List<ImageURL> getImageURLS() {
         return imageURLGet.findAll();
     }
-    private List<Product> getAllProduct(){
+
+    private List<Product> getAllProduct() {
         return iProductService.findAll();
     }
 
-    public List<DTOProduct> createDtoProducts (){
+    private List<Product> searchNameProduct(String name) {
+        return iProductService.findAllByNameContaining(name);
+    }
+
+    private List<Product> searchProductByCategory(long id) {
+        return iProductService.findAllByCategoryId(id);
+    }
+
+    private List<Product> searchProductByPrice(Double priceMin, Double priceMax) {
+        return iProductService.findProductByPriceBetween(priceMin, priceMax);
+    }
+
+    public List<DTOProduct> createDtoProducts() {
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) getAllProduct();
         ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
-        for (Product product : products){
-            DTOProduct dtoProduct= null;
+        for (Product product : products) {
+            DTOProduct dtoProduct = null;
             ArrayList<String> imageURLSProduct = new ArrayList<>();
-            for (ImageURL imageURL : imageURLS){
-                if (Objects.equals(imageURL.getProduct().getId(), product.getId())){
+            for (ImageURL imageURL : imageURLS) {
+                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
                     imageURLSProduct.add(imageURL.getName());
                 }
-                dtoProduct = new DTOProduct(product,imageURLSProduct);
+                dtoProduct = new DTOProduct(product, imageURLSProduct);
             }
             dtoProducts.add(dtoProduct);
         }
         return dtoProducts;
     }
 
+    public List<DTOProduct> searchNameDtoProducts(String name) {
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>) searchNameProduct(name);
+        ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
+        for (Product product : products) {
+            DTOProduct dtoProduct = null;
+            ArrayList<String> imageURLSProduct = new ArrayList<>();
+            for (ImageURL imageURL : imageURLS) {
+                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
+                    imageURLSProduct.add(imageURL.getName());
+                }
+                dtoProduct = new DTOProduct(product, imageURLSProduct);
+            }
+            dtoProducts.add(dtoProduct);
+        }
+        return dtoProducts;
+
+    }
+
+    public List<DTOProduct> searchDtoProductsByCategory(long id) {
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>) searchProductByCategory(id);
+        ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
+        for (Product product : products) {
+            DTOProduct dtoProduct = null;
+            ArrayList<String> imageURLSProduct = new ArrayList<>();
+            for (ImageURL imageURL : imageURLS) {
+                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
+                    imageURLSProduct.add(imageURL.getName());
+                }
+                dtoProduct = new DTOProduct(product, imageURLSProduct);
+            }
+            dtoProducts.add(dtoProduct);
+        }
+        return dtoProducts;
+    }
+
+    public List<DTOProduct> searchDtoProductsByPrice(Double priceMin, Double priceMax) {
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>) searchProductByPrice(priceMin, priceMax);
+        ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
+        for (Product product : products) {
+            DTOProduct dtoProduct = null;
+            ArrayList<String> imageURLSProduct = new ArrayList<>();
+            for (ImageURL imageURL : imageURLS) {
+                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
+                    imageURLSProduct.add(imageURL.getName());
+                }
+                dtoProduct = new DTOProduct(product, imageURLSProduct);
+            }
+            dtoProducts.add(dtoProduct);
+        }
+        return dtoProducts;
+    }
 }

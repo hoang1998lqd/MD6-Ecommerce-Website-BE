@@ -1,5 +1,6 @@
 package com.example.md6be.repository;
 
+import com.example.md6be.model.DTO.DTOProduct;
 import com.example.md6be.model.Product;
 
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;

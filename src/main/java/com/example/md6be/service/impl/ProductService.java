@@ -6,7 +6,6 @@ import com.example.md6be.repository.ProductRepository;
 import com.example.md6be.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +68,28 @@ public class ProductService implements IProductService {
         return productRepository.findAllByNameContaining(name);
     }
 
+    public List<DTOProduct> findDTOAllByNameContaining(String name) {
+        return dtoProductService.searchNameDtoProducts(name);
+    }
+
     @Override
     public List<Product> findAllByCategoryId(long id) {
         return productRepository.findAllByCategoryId(id);
+    }
+
+    public List<DTOProduct> findDTOAllByCategoryId(long id) {
+        return dtoProductService.searchDtoProductsByCategory(id);
     }
 
     @Override
     public List<Product> findProductByPriceBetween(Double priceMin, Double priceMax) {
         return productRepository.findProductByPriceBetween(priceMin,priceMax);
     }
+
+    @Override
+    public List<DTOProduct> findDTOProductByPriceBetween(Double priceMin, Double priceMax) {
+        return dtoProductService.searchDtoProductsByPrice(priceMin,priceMax);
+    }
+
 
 }
