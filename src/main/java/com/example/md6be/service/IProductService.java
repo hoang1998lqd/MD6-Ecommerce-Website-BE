@@ -9,4 +9,7 @@ import java.util.List;
 public interface IProductService extends IGeneralService<Product> {
     Long findIdNewProduct();
     List<DTOProduct> getAllDTO();
+    List<Product> findProductByCustomerId(Long id);
+    List<DTOProduct> findAllProductByCustomerId(Long id);
+
 }

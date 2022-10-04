@@ -62,4 +62,14 @@ public class ProductService implements IProductService {
     public List<DTOProduct> getAllDTO() {
         return dtoProductService.createDtoProducts();
     }
+
+    @Override
+    public List<Product> findProductByCustomerId(Long id) {
+        return productRepository.findProductByCustomerId(id);
+    }
+
+    @Override
+    public List<DTOProduct> findAllProductByCustomerId(Long id) {
+        return dtoProductService.findAllProductByCustomerId(id);
+    }
 }

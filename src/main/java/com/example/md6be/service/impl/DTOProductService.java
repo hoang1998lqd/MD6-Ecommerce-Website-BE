@@ -24,10 +24,23 @@ public class DTOProductService {
     private List<Product> getAllProduct(){
         return iProductService.findAll();
     }
+    private List<Product> getAllProductByCustomerId(Long id){
+        return iProductService.findProductByCustomerId(id);
+    }
 
     public List<DTOProduct> createDtoProducts (){
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) getAllProduct();
+        return getImageURLByCustomerId(dtoProducts, products);
+    }
+
+    public List<DTOProduct> findAllProductByCustomerId(Long id){
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>) getAllProductByCustomerId(id);
+        return getImageURLByCustomerId(dtoProducts, products);
+    }
+
+    private List<DTOProduct> getImageURLByCustomerId(List<DTOProduct> dtoProducts, ArrayList<Product> products) {
         ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
         for (Product product : products){
             DTOProduct dtoProduct= null;
