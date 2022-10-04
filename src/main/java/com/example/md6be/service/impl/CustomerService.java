@@ -68,4 +68,9 @@ public class CustomerService implements ICustomerService {
     public Long findNewCustomerId() {
         return customerRepository.findNewCustomerId();
     }
+
+    @Override
+    public List<Integer> findRoleByCustomerId(Long id) {
+        return customerRepository.findRoleByCustomerId(id);
+    }
 }
