@@ -70,13 +70,6 @@ ICartService cartService;
         return new ResponseEntity<>(ordersService.findNewOrderId(), HttpStatus.OK);
     }
     // xac nhan
-    @PostMapping("/checkout/{idCustomer}")
-    public ResponseEntity<?> pay(@PathVariable ("idCustomer") Long idCustomer) {
-        Optional<Orders> ordersOptional = ordersService.findById(idCustomer);
-        if(ordersOptional.isPresent()){
-            return new ResponseEntity<>(ordersService.save(ordersOptional.get() ), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+
 
 }
