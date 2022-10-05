@@ -36,7 +36,7 @@ public class Customer {
     @Column(length = 400)
     private String image;
 
-    private Integer status;
+    private Integer status = 1;
 
     @ManyToMany(targetEntity = Role.class,fetch = FetchType.EAGER)
     private Set<Role> role;

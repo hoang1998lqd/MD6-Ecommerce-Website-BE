@@ -26,7 +26,7 @@ public class VoucherController {
         return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.OK);
     }
     @DeleteMapping("/delete-voucher/{id}")
-    public ResponseEntity<?> createVoucher(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteVoucher(@PathVariable("id") Long id) {
         Optional<Voucher> voucherOptional = voucherService.findById(id);
         if (!voucherOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -34,5 +34,13 @@ public class VoucherController {
             voucherService.delete(id);
             return new ResponseEntity<>(voucherOptional.get(), HttpStatus.OK);
         }
+    }
+    @PutMapping("/update-voucher/{id}")
+    private ResponseEntity<?> updateVoucher(@RequestBody Voucher voucher){
+        Optional<Voucher> voucherOptional = voucherService.findById(voucher.getId());
+        if(voucherOptional.isPresent()){
+            return new ResponseEntity<>(voucherService.save(voucher),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

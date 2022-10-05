@@ -93,4 +93,9 @@ public class ProductController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/customer/{id}")
+    private ResponseEntity<List<DTOProduct>> getProductByCustomerId(@PathVariable Long id){
+        return new ResponseEntity<>(iProduct.findAllProductByCustomerId(id),HttpStatus.OK);
+    }
 }
