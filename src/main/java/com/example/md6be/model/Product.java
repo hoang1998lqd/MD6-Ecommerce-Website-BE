@@ -49,4 +49,5 @@ public class Product {
 
     @ManyToOne
     private Customer customer;
+
 }
