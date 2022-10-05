@@ -57,31 +57,32 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> findAllByNameContaining(String name) {
-        return productRepository.findAllByNameContaining(name);
-    }
-
-    public List<DTOProduct> findDTOAllByNameContaining(String name) {
-        return dtoProductService.searchNameDtoProducts(name);
+    public List<Product> findAllByNameContaining(Long idCustomer,String name) {
+        return productRepository.findAllByNameContaining(idCustomer,"%"+name+"%");
     }
 
     @Override
-    public List<Product> findAllByCategoryId(long id) {
-        return productRepository.findAllByCategoryId(id);
-    }
-
-    public List<DTOProduct> findDTOAllByCategoryId(long id) {
-        return dtoProductService.searchDtoProductsByCategory(id);
+    public List<DTOProduct> findDTOAllByNameContaining(Long idCustomer,String name) {
+        return dtoProductService.searchNameDtoProducts(idCustomer,name);
     }
 
     @Override
-    public List<Product> findProductByPriceBetween(Double priceMin, Double priceMax) {
-        return productRepository.findProductByPriceBetween(priceMin, priceMax);
+    public List<Product> findAllByCategoryId(Long idCustomer, long id) {
+        return productRepository.findAllByCategoryId(idCustomer, id);
+    }
+
+    public List<DTOProduct> findDTOAllByCategoryId(Long idCustomer, long id) {
+        return dtoProductService.searchDtoProductsByCategory(idCustomer, id);
     }
 
     @Override
-    public List<DTOProduct> findDTOProductByPriceBetween(Double priceMin, Double priceMax) {
-        return dtoProductService.searchDtoProductsByPrice(priceMin, priceMax);
+    public List<Product> findProductByPriceBetween(Long idCustomer,Double priceMin, Double priceMax) {
+        return productRepository.findProductByPriceBetween(idCustomer,priceMin, priceMax);
+    }
+
+    @Override
+    public List<DTOProduct> findDTOProductByPriceBetween(Long idCustomer, Double priceMin, Double priceMax) {
+        return dtoProductService.searchDtoProductsByPrice(idCustomer, priceMin, priceMax);
     }
 
     public List<Product> findProductByCustomerId(Long id) {

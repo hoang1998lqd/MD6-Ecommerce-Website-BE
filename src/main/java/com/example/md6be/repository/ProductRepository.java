@@ -23,13 +23,15 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             nativeQuery = true)
     Long findIdNewProduct();
 
-
-    List<Product> findAllByNameContaining(String name);
-
-    List<Product> findProductByPriceBetween (Double priceMin, Double priceMax);
-
-    List<Product> findAllByCategoryId(long id);
-
+    @Query(value = "select * from product where not customer_id = ?1 and status = 1 and name like ?2",
+            nativeQuery = true)
+    List<Product> findAllByNameContaining(Long idCustomer,String name);
+    @Query(value = "select * from product where not customer_id = ?1 and status = 1 and price between ?2 and ?3",
+            nativeQuery = true)
+    List<Product> findProductByPriceBetween (Long idCustomer, Double priceMin, Double priceMax);
+    @Query(value = "select * from product where not customer_id = ?1 and status = 1 and category_id = ?2",
+            nativeQuery = true)
+    List<Product> findAllByCategoryId(Long idCustomer,long id);
     @Query(value = "select * from product where customer_id = ?1 and status = 1",
             nativeQuery = true)
     List<Product> findProductByCustomerId(Long id);

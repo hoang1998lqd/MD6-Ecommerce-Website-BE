@@ -33,16 +33,16 @@ public class DTOProductService {
         return iProductService.findAllProduct(id);
     }
 
-    private List<Product> searchNameProduct(String name) {
-        return iProductService.findAllByNameContaining(name);
+    private List<Product> searchNameProduct(Long idCustomer, String name) {
+        return iProductService.findAllByNameContaining(idCustomer, name);
     }
 
-    private List<Product> searchProductByCategory(long id) {
-        return iProductService.findAllByCategoryId(id);
+    private List<Product> searchProductByCategory(Long idCustomer, long id) {
+        return iProductService.findAllByCategoryId(idCustomer, id);
     }
 
-    private List<Product> searchProductByPrice(Double priceMin, Double priceMax) {
-        return iProductService.findProductByPriceBetween(priceMin, priceMax);
+    private List<Product> searchProductByPrice(Long idCustomer, Double priceMin, Double priceMax) {
+        return iProductService.findProductByPriceBetween(idCustomer,priceMin, priceMax);
     }
 
     public List<DTOProduct> createDtoProducts() {
@@ -57,6 +57,7 @@ public class DTOProductService {
         return getImageURLByCustomerId(dtoProducts, products);
     }
 
+    // Tìm tất cả sản phẩm cho người bán hàng
     public List<DTOProduct> findAllProduct(Long idCustomer){
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) findAllProductNotByCustomerId(idCustomer);
@@ -64,6 +65,10 @@ public class DTOProductService {
     }
 
     private List<DTOProduct> getImageURLByCustomerId(List<DTOProduct> dtoProducts, ArrayList<Product> products) {
+        return getImg(dtoProducts, products);
+    }
+
+    private List<DTOProduct> getImg(List<DTOProduct> dtoProducts, ArrayList<Product> products) {
         ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
         for (Product product : products) {
             DTOProduct dtoProduct = null;
@@ -79,58 +84,22 @@ public class DTOProductService {
         return dtoProducts;
     }
 
-    public List<DTOProduct> searchNameDtoProducts(String name) {
+    public List<DTOProduct> searchNameDtoProducts(Long idCustomer, String name) {
         List<DTOProduct> dtoProducts = new ArrayList<>();
-        ArrayList<Product> products = (ArrayList<Product>) searchNameProduct(name);
-        ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
-        for (Product product : products) {
-            DTOProduct dtoProduct = null;
-            ArrayList<String> imageURLSProduct = new ArrayList<>();
-            for (ImageURL imageURL : imageURLS) {
-                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
-                    imageURLSProduct.add(imageURL.getName());
-                }
-                dtoProduct = new DTOProduct(product, imageURLSProduct);
-            }
-            dtoProducts.add(dtoProduct);
-        }
-        return dtoProducts;
+        ArrayList<Product> products = (ArrayList<Product>) searchNameProduct(idCustomer, name);
+        return getImg(dtoProducts, products);
 
     }
 
-    public List<DTOProduct> searchDtoProductsByCategory(long id) {
+    public List<DTOProduct> searchDtoProductsByCategory(Long idCustomer, long id) {
         List<DTOProduct> dtoProducts = new ArrayList<>();
-        ArrayList<Product> products = (ArrayList<Product>) searchProductByCategory(id);
-        ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
-        for (Product product : products) {
-            DTOProduct dtoProduct = null;
-            ArrayList<String> imageURLSProduct = new ArrayList<>();
-            for (ImageURL imageURL : imageURLS) {
-                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
-                    imageURLSProduct.add(imageURL.getName());
-                }
-                dtoProduct = new DTOProduct(product, imageURLSProduct);
-            }
-            dtoProducts.add(dtoProduct);
-        }
-        return dtoProducts;
+        ArrayList<Product> products = (ArrayList<Product>) searchProductByCategory(idCustomer, id);
+        return getImg(dtoProducts, products);
     }
 
-    public List<DTOProduct> searchDtoProductsByPrice(Double priceMin, Double priceMax) {
+    public List<DTOProduct> searchDtoProductsByPrice(Long idCustomer, Double priceMin, Double priceMax) {
         List<DTOProduct> dtoProducts = new ArrayList<>();
-        ArrayList<Product> products = (ArrayList<Product>) searchProductByPrice(priceMin, priceMax);
-        ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
-        for (Product product : products) {
-            DTOProduct dtoProduct = null;
-            ArrayList<String> imageURLSProduct = new ArrayList<>();
-            for (ImageURL imageURL : imageURLS) {
-                if (Objects.equals(imageURL.getProduct().getId(), product.getId())) {
-                    imageURLSProduct.add(imageURL.getName());
-                }
-                dtoProduct = new DTOProduct(product, imageURLSProduct);
-            }
-            dtoProducts.add(dtoProduct);
-        }
-        return dtoProducts;
+        ArrayList<Product> products = (ArrayList<Product>) searchProductByPrice(idCustomer, priceMin, priceMax);
+        return getImg(dtoProducts, products);
     }
 }

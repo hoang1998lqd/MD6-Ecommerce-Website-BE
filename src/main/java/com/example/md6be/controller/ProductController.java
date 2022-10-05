@@ -94,22 +94,24 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/find-name-products")
-    private ResponseEntity<List<DTOProduct>> findAllByNameContaining(@RequestParam String name) {
-        return new ResponseEntity<>(iProduct.findDTOAllByNameContaining(name), HttpStatus.OK);
+    @GetMapping("/find-name-products/{name}&{idCustomer}")
+    private ResponseEntity<List<DTOProduct>> findAllByNameContaining(@PathVariable("name") String name, @PathVariable Long idCustomer) {
+        return new ResponseEntity<>(iProduct.findDTOAllByNameContaining( idCustomer,name), HttpStatus.OK);
     }
 
-    @GetMapping("/find-by-id/{id}")
-    private ResponseEntity<List<DTOProduct>> findProductByCategoryId(@PathVariable("id") long id) {
-        return new ResponseEntity<>(iProduct.findDTOAllByCategoryId(id), HttpStatus.OK);
+    @GetMapping("/find-by-id/{id}&{idCustomer}")
+    private ResponseEntity<List<DTOProduct>> findProductByCategoryId(@PathVariable("id") long id,
+                                                                     @PathVariable Long idCustomer) {
+        return new ResponseEntity<>(iProduct.findDTOAllByCategoryId(idCustomer, id), HttpStatus.OK);
     }
 
-    @GetMapping("/find-by-price/{priceMin}&{priceMax}")
+    @GetMapping("/find-by-price/{priceMin}&{priceMax}&{idCustomer}")
     private ResponseEntity<List<DTOProduct>> findProductByPrice(@PathVariable("priceMin") Optional<Double> priceMin,
-                                                                @PathVariable("priceMax") Optional<Double> priceMax) {
+                                                                @PathVariable("priceMax") Optional<Double> priceMax,
+                                                                @PathVariable("idCustomer") Long idCustomer) {
         Double min = priceMin.orElse(Double.MIN_VALUE);
         Double max = priceMax.orElse(Double.MAX_VALUE);
-        List<DTOProduct> betweenPrice = iProduct.findDTOProductByPriceBetween(min, max);
+        List<DTOProduct> betweenPrice = iProduct.findDTOProductByPriceBetween(idCustomer, min, max);
         return new ResponseEntity<>(betweenPrice, HttpStatus.OK);
     }
 
