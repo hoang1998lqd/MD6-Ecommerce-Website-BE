@@ -32,6 +32,9 @@ public class DTOProductService {
     private List<Product> findAllProductNotByCustomerId(Long id){
         return iProductService.findAllProduct(id);
     }
+    private List<Product> findAllProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand){
+        return iProductService.findAllProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand);
+    }
 
     private List<Product> searchNameProduct(Long idCustomer, String name) {
         return iProductService.findAllByNameContaining(idCustomer, name);
@@ -45,11 +48,14 @@ public class DTOProductService {
         return iProductService.findProductByPriceBetween(idCustomer,priceMin, priceMax);
     }
 
+    //Tất cả Product
     public List<DTOProduct> createDtoProducts() {
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) getAllProduct();
         return getImageURLByCustomerId(dtoProducts, products);
     }
+
+    //Product theo người dùng
 
     public List<DTOProduct> findAllProductByCustomerId(Long id){
         List<DTOProduct> dtoProducts = new ArrayList<>();
@@ -67,6 +73,7 @@ public class DTOProductService {
     private List<DTOProduct> getImageURLByCustomerId(List<DTOProduct> dtoProducts, ArrayList<Product> products) {
         return getImg(dtoProducts, products);
     }
+
 
     private List<DTOProduct> getImg(List<DTOProduct> dtoProducts, ArrayList<Product> products) {
         ArrayList<ImageURL> imageURLS = (ArrayList<ImageURL>) getImageURLS();
@@ -88,7 +95,12 @@ public class DTOProductService {
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) searchNameProduct(idCustomer, name);
         return getImg(dtoProducts, products);
+    }
 
+    public List<DTOProduct>findAllDTOProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand){
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>) findAllProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand) ;
+        return getImg(dtoProducts, products);
     }
 
     public List<DTOProduct> searchDtoProductsByCategory(Long idCustomer, long id) {

@@ -104,4 +104,14 @@ public class ProductService implements IProductService {
         return dtoProductService.findAllProduct(idCustomer);
     }
 
+    @Override
+    public List<Product> findAllProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand) {
+        return productRepository.findAllProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand);
+    }
+
+    @Override
+    public List<DTOProduct> findAllDTOProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand) {
+        return dtoProductService.findAllDTOProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand);
+    }
+
 }
