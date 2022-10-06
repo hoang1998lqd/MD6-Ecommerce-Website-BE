@@ -18,6 +18,10 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
     @Query(value = "select max(id) from customer", nativeQuery = true)
     Long findNewCustomerId();
 
+    @Query(value = "select role_id from customer_role where customer_id = ?1",
+            nativeQuery = true)
+    List<Integer> findRoleByCustomerId(Long idCustomer);
+
    List<Customer> findAllBy();
     @Query(value = "select role_id from customer_role where customer_id = ?1",
             nativeQuery = true)
