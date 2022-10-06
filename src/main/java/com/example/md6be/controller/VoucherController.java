@@ -1,5 +1,6 @@
 package com.example.md6be.controller;
 
+import com.example.md6be.model.Product;
 import com.example.md6be.model.Voucher;
 import com.example.md6be.service.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/voucher")
+@RequestMapping(value="/api/voucher")
 
 public class VoucherController {
     @Autowired
@@ -21,10 +22,15 @@ public class VoucherController {
         Iterable<Voucher> vouchers = voucherService.findAllByCustomer_Id(CustomerId);
         return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
-    @PostMapping("/create-voucher")
-    public ResponseEntity<?> createVoucher(@RequestBody Voucher voucher) {
-        return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.OK);
+//    @PostMapping
+//    public ResponseEntity<?> createVoucher(@RequestBody Voucher voucher) {
+//        return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.CREATED);
+//    }
+    @PostMapping
+    private ResponseEntity<Voucher> createProduct(@RequestBody Voucher voucher) {
+        return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.CREATED);
     }
+
     @DeleteMapping("/delete-voucher/{id}")
     public ResponseEntity<?> deleteVoucher(@PathVariable("id") Long id) {
         Optional<Voucher> voucherOptional = voucherService.findById(id);
@@ -35,7 +41,7 @@ public class VoucherController {
             return new ResponseEntity<>(voucherOptional.get(), HttpStatus.OK);
         }
     }
-    @PutMapping("/update-voucher/{id}")
+    @PutMapping("/update-voucher")
     private ResponseEntity<?> updateVoucher(@RequestBody Voucher voucher){
         Optional<Voucher> voucherOptional = voucherService.findById(voucher.getId());
         if(voucherOptional.isPresent()){
