@@ -22,14 +22,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> findAll() {
-        List<Product> products = productRepository.findAll();
-        List<Product> productList = new ArrayList<>();
-        for (Product product : products){
-            if (product.getStatus() != 0 ){
-                productList.add(product);
-            }
-        }
-        return productList;
+        return productRepository.findAllProduct();
     }
 
 
@@ -71,5 +64,15 @@ public class ProductService implements IProductService {
     @Override
     public List<DTOProduct> findAllProductByCustomerId(Long id) {
         return dtoProductService.findAllProductByCustomerId(id);
+    }
+
+    @Override
+    public List<Product> findAllProduct(Long idCustomer) {
+        return productRepository.findAllProduct(idCustomer);
+    }
+
+    @Override
+    public List<DTOProduct> findAllProductNotCustomerId(Long idCustomer) {
+        return dtoProductService.findAllProduct(idCustomer);
     }
 }

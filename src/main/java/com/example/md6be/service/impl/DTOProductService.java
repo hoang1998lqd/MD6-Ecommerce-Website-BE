@@ -27,6 +27,9 @@ public class DTOProductService {
     private List<Product> getAllProductByCustomerId(Long id){
         return iProductService.findProductByCustomerId(id);
     }
+    private List<Product> findAllProductNotByCustomerId(Long id){
+        return iProductService.findAllProduct(id);
+    }
 
     public List<DTOProduct> createDtoProducts (){
         List<DTOProduct> dtoProducts = new ArrayList<>();
@@ -37,6 +40,12 @@ public class DTOProductService {
     public List<DTOProduct> findAllProductByCustomerId(Long id){
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) getAllProductByCustomerId(id);
+        return getImageURLByCustomerId(dtoProducts, products);
+    }
+
+    public List<DTOProduct> findAllProduct(Long idCustomer){
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>) findAllProductNotByCustomerId(idCustomer);
         return getImageURLByCustomerId(dtoProducts, products);
     }
 

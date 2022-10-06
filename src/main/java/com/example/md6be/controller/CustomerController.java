@@ -109,4 +109,10 @@ public class CustomerController {
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
+    @GetMapping("/role/{idCustomer}")
+    public ResponseEntity<Iterable<Integer>> findRollByCustomerId(@PathVariable Long idCustomer) {
+        Iterable<Integer> roles = iCustomerService.findRoleByCustomerId(idCustomer);
+        return new ResponseEntity<>(roles, HttpStatus.OK);
+    }
+
 }

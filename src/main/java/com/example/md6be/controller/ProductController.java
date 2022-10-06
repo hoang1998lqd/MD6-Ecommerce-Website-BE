@@ -98,4 +98,9 @@ public class ProductController {
     private ResponseEntity<List<DTOProduct>> getProductByCustomerId(@PathVariable Long id){
         return new ResponseEntity<>(iProduct.findAllProductByCustomerId(id),HttpStatus.OK);
     }
+
+    @GetMapping("/not-customer/{idCustomer}")
+    private ResponseEntity<List<DTOProduct>> findAllProductNotByCustomerId(@PathVariable Long idCustomer){
+        return new ResponseEntity<>(iProduct.findAllProductNotCustomerId(idCustomer),HttpStatus.OK);
+    }
 }
