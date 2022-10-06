@@ -21,10 +21,6 @@ public class Cart {
     @JsonBackReference
     private List<Item> items;
 
-    public Cart(Long id, List<Item> items) {
-        this.id = id;
-        this.items = items;
-    }
 
     @OneToOne // Đánh dấu có mỗi quan hệ 1-1 với Person ở phía dưới
     @JoinColumn(name = "customer_id") // Liên kết với nhau qua khóa ngoại person_id

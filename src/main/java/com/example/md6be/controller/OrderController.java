@@ -64,4 +64,5 @@ public class OrderController {
     private ResponseEntity<Long> findNewOrderId() {
         return new ResponseEntity<>(ordersService.findNewOrderId(), HttpStatus.OK);
     }
+    
 }

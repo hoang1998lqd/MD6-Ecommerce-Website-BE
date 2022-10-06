@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 ;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ICustomerService extends IGeneralService<Customer>, UserDetailsService {
@@ -17,5 +18,6 @@ public interface ICustomerService extends IGeneralService<Customer>, UserDetails
 
     Optional<Customer> findByEmailAddress (String email);
     Long findNewCustomerId();
+    List <Integer> findRoleByCustomerId(Long id);
 
 }
