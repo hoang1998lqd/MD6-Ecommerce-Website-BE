@@ -19,4 +19,8 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
     Long findNewCustomerId();
 
    List<Customer> findAllBy();
+    @Query(value = "select role_id from customer_role where customer_id = ?1",
+            nativeQuery = true)
+    List<Integer> findRoleByCustomerId(Long idCustomer);
+
 }

@@ -9,4 +9,19 @@ import java.util.List;
 public interface IProductService extends IGeneralService<Product> {
     Long findIdNewProduct();
     List<DTOProduct> getAllDTO();
+    List<Product> findAllByNameContaining(Long idCustomer,String name);
+    List<DTOProduct> findDTOAllByNameContaining(Long idCustomer, String name);
+    List<Product> findAllByCategoryId(Long idCustomer, long id);
+    List<DTOProduct> findDTOAllByCategoryId(Long idCustomer, long id);
+    List<Product> findProductByPriceBetween (Long idCustomer, Double priceMin, Double priceMax);
+    List<DTOProduct> findDTOProductByPriceBetween (Long idCustomer, Double priceMin, Double priceMax);
+    List<Product> findProductByCustomerId(Long id);
+    List<DTOProduct> findAllProductByCustomerId(Long id);
+    List<Product> findAllProduct(Long idCustomer);
+    List<DTOProduct> findAllProductNotCustomerId(Long idCustomer);
+    List<Product> findAllProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand);
+    List<DTOProduct> findAllDTOProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand);
+
+
+
 }
