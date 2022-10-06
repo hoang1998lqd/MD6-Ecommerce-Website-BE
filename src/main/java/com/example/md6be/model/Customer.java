@@ -22,9 +22,10 @@ public class Customer {
     @Column(nullable = false, unique = true, name = "email_address")
     private String emailAddress;
 
+    @Column(nullable = false)
     private String password;
 
-
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true, name = "phone_number")
@@ -40,6 +41,5 @@ public class Customer {
 
     @ManyToMany(targetEntity = Role.class,fetch = FetchType.EAGER)
     private Set<Role> role;
-
 
 }
