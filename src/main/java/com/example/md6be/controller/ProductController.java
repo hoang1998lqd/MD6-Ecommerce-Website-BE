@@ -96,7 +96,7 @@ public class ProductController {
 
     @GetMapping("/find-name-products/{name}&{idCustomer}")
     private ResponseEntity<List<DTOProduct>> findAllByNameContaining(@PathVariable("name") String name, @PathVariable Long idCustomer) {
-        return new ResponseEntity<>(iProduct.findDTOAllByNameContaining( idCustomer,name), HttpStatus.OK);
+        return new ResponseEntity<>(iProduct.findDTOAllByNameContaining(idCustomer, name), HttpStatus.OK);
     }
 
     @GetMapping("/find-by-id/{id}&{idCustomer}")
@@ -123,6 +123,13 @@ public class ProductController {
     @GetMapping("/not-customer/{idCustomer}")
     private ResponseEntity<List<DTOProduct>> findAllProductNotByCustomerId(@PathVariable Long idCustomer) {
         return new ResponseEntity<>(iProduct.findAllProductNotCustomerId(idCustomer), HttpStatus.OK);
+    }
 
+    //Tìm kiếm sản phẩm theo idCategory và idBrand
+    @GetMapping("/brand/{idCustomer}&{idCategory}&{idBrand}")
+    private ResponseEntity<List<DTOProduct>> findAllProductByCategoryIdAndBrandId(@PathVariable Long idCustomer,
+                                                                                  @PathVariable Long idCategory,
+                                                                                  @PathVariable Long idBrand) {
+        return new ResponseEntity<>(iProduct.findAllDTOProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand), HttpStatus.OK);
     }
 }

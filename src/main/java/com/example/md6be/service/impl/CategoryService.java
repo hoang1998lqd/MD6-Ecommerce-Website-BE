@@ -1,18 +1,16 @@
 package com.example.md6be.service.impl;
 
 import com.example.md6be.model.Category;
-import com.example.md6be.model.Product;
+
 
 import com.example.md6be.model.DTO.DTOCategoryBrand;
 
 import com.example.md6be.repository.CategoryRepository;
 import com.example.md6be.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -45,10 +43,10 @@ public class CategoryService implements ICategoryService {
         categoryRepository.deleteById(id);
     }
 
-
     @Override
     public List<DTOCategoryBrand> findBrandByCategoryId() {
         return dtoCategoryAndBrandService.findBrandByCategoryId();
     }
+
 }
 
