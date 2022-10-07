@@ -64,4 +64,9 @@ public class OrderService implements IOrdersService {
     public Long findNewOrderId() {
         return ordersRepository.findNewOrderId();
     }
+
+    @Override
+    public List<Orders> findAllOrderByShopId(Long idCustomer) {
+        return ordersRepository.findAllOrderByShopId(idCustomer);
+    }
 }

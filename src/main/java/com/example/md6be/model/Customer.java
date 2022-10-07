@@ -1,5 +1,7 @@
 package com.example.md6be.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,5 +43,10 @@ public class Customer {
 
     @ManyToMany(targetEntity = Role.class,fetch = FetchType.EAGER)
     private Set<Role> role;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "shop_id") // we need to duplicate the physical information
+    private Set<Orders> orders;
 
 }
