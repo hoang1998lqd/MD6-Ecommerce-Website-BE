@@ -14,4 +14,9 @@ public interface IOrdersRepository extends JpaRepository<Orders, Long> {
 
     @Query(value = "select max(id) from orders", nativeQuery = true)
     Long findNewOrderId();
+
+    //Tìm kiếm đơn hàng của Cửa hàng đó
+    @Query(value = "select * from orders where shop_id = ?1", nativeQuery = true)
+    List<Orders> findAllOrderByShopId(Long idCustomer);
+
 }

@@ -32,12 +32,16 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "select * from product where not customer_id = ?1 and status = 1 and category_id = ?2",
             nativeQuery = true)
     List<Product> findAllByCategoryId(Long idCustomer,long id);
+
+    //Tìm kiếm sản phẩm trong gian hàng của người bán hàng
     @Query(value = "select * from product where customer_id = ?1 and status = 1",
             nativeQuery = true)
     List<Product> findProductByCustomerId(Long id);
     @Query(value = "select * from product where status = 1",
             nativeQuery = true)
     List<Product> findAllProduct();
+
+    //Tìm kiếm sản phẩm mà không phải tồn tại trong cửa hàng của người tạo
     @Query(value = "select * from product where not customer_id = ?1 and status = 1",
             nativeQuery = true)
     List<Product> findAllProduct(Long idCustomer);
@@ -45,5 +49,9 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             nativeQuery = true)
     List<Product> findAllProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand);
 
+    // Tìm kiếm sản phẩm theo ID của đơn đặt hàng
+    @Query(value = "select * from product where id in (select product_id from order_detail where orders_id = ?1)",
+            nativeQuery = true)
+    List<Product> findAllProductByOrderId(Long idOrder);
 
 }
