@@ -72,5 +72,10 @@ public class OrderController {
         return  new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer),HttpStatus.OK);
     }
 
+
+    @GetMapping("/order-detail/by-all-order/{id}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByOrderId(@PathVariable Long id){
+        return new ResponseEntity<>(detailService.findAllByOrderId(id), HttpStatus.OK);
+    }
     
 }

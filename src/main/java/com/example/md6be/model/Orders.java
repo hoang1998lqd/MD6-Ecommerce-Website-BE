@@ -51,4 +51,6 @@ public class Orders {
     @JoinColumn(name = "shop_id", insertable = false, updatable = false)
     private Customer shop;
 
+
+
 }
