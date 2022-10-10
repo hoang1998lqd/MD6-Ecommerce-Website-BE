@@ -16,8 +16,11 @@ public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Double discount;
+    @Column(nullable = false)
     private Long quantity;
     @ManyToOne
     private Customer customer;

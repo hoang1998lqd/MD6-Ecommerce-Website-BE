@@ -27,7 +27,7 @@ public class VoucherController {
 //        return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.CREATED);
 //    }
     @PostMapping
-    private ResponseEntity<Voucher> createProduct(@RequestBody Voucher voucher) {
+    private ResponseEntity<Voucher> createVoucher(@RequestBody Voucher voucher) {
         return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.CREATED);
     }
 
