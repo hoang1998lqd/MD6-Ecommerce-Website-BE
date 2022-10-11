@@ -8,4 +8,6 @@ import java.util.List;
 public interface IOrder_detailService extends IGeneralService<Order_detail> {
     List<Order_detail> saveAll(List<Order_detail> order_details);
     List<Order_detail> findAllByOrderId(Long id);
+
+    List<Order_detail> findAllOrderDetailById(Long idShop);
 }

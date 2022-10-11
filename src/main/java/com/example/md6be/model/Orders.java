@@ -33,7 +33,6 @@ public class Orders {
     private String description;
 
 //    Trạng thái tồn tại của đơn hàng
-
     @Column(nullable = false)
     private int status_exist = 1;
 
