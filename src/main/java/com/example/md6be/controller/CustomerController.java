@@ -106,8 +106,9 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        Customer customer1;
         try {
-            iCustomerService.save(customer);
+            customer1 = iCustomerService.save(customer);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
@@ -116,7 +117,7 @@ public class CustomerController {
         }catch (Exception e){
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(customer1,HttpStatus.CREATED);
     }
 
     @GetMapping("/role")
