@@ -21,7 +21,7 @@ public interface IOrdersRepository extends JpaRepository<Orders, Long> {
     Long findNewOrderId();
 
     //Tìm kiếm đơn hàng của Cửa hàng đó
-    @Query(value = "select * from orders where shop_id = ?1", nativeQuery = true)
+    @Query(value = "select * from orders where shop_id = ?1 and status_exist = 1", nativeQuery = true)
     List<Orders> findAllOrderByShopId(Long idCustomer);
 
     @Query(value = "select * from orders where status_exist = 1 and id = ?1", nativeQuery = true)
