@@ -1,7 +1,9 @@
 package com.example.md6be.service.impl;
 
 import com.example.md6be.model.Role;
+import com.example.md6be.repository.IRoleRepository;
 import com.example.md6be.service.IRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +11,12 @@ import java.util.Optional;
 
 @Service
 public class RoleService implements IRoleService {
+    @Autowired
+    private IRoleRepository roleRepository;
+
     @Override
     public List<Role> findAll() {
-        return null;
+        return roleRepository.findAll();
     }
 
     @Override

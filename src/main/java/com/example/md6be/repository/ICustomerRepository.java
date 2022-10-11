@@ -22,4 +22,5 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true)
     List<Integer> findRoleByCustomerId(Long idCustomer);
 
+   List<Customer> findAllBy();
 }

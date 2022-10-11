@@ -7,6 +7,7 @@ import com.example.md6be.service.ICustomerService;
 import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +84,14 @@ public class OrderController {
     private ResponseEntity<List<?>> findOrderByCustomerId(@PathVariable Long id) {
         List<Orders> orders = ordersService.findOrdersByCustomerId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
-        }
     }
 
+
+    //Tìm kiếm thông tin đơn hàng của cửa hàng đó
+    @GetMapping("/shop/{idCustomer}")
+    private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer), HttpStatus.OK);
+    }
+
+
+}
