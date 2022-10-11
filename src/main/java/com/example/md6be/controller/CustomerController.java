@@ -128,4 +128,11 @@ public class CustomerController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    // Tìm kiếm List người dùng có quyền bán hàng
+    @GetMapping("/shop")
+    public ResponseEntity<List<Customer>> findCustomerHaveShop(){
+        return new  ResponseEntity<>(iCustomerService.findCustomerHaveShop(),HttpStatus.OK);
+    }
+
 }

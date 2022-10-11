@@ -35,6 +35,11 @@ public class Order_detailService implements IOrder_detailService {
     }
 
     @Override
+    public List<Order_detail> saveAll(List<Order_detail> order_details) {
+        return detailRepository.saveAll(order_details);
+    }
+
+    @Override
     public List<Order_detail> findAllByOrderId(Long id) {
         return detailRepository.findAllByOrderId(id);
     }

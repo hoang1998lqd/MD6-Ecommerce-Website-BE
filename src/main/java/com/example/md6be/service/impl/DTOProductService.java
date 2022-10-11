@@ -6,6 +6,7 @@ import com.example.md6be.model.Product;
 import com.example.md6be.service.IProductService;
 import com.example.md6be.service.ImageURLGet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,6 +47,11 @@ public class DTOProductService {
 
     private List<Product> searchProductByPrice(Long idCustomer, Double priceMin, Double priceMax) {
         return iProductService.findProductByPriceBetween(idCustomer,priceMin, priceMax);
+    }
+
+    // Tìm kiếm sản phẩm theo ID của đơn hàng
+    private List<Product> findAllProductByOrderId(Long idOrder){
+        return iProductService.findAllProductByOrderId(idOrder);
     }
 
     //Tất cả Product
@@ -113,5 +119,12 @@ public class DTOProductService {
         List<DTOProduct> dtoProducts = new ArrayList<>();
         ArrayList<Product> products = (ArrayList<Product>) searchProductByPrice(idCustomer, priceMin, priceMax);
         return getImg(dtoProducts, products);
+    }
+
+    //Tìm kiếm DTOProduct theo ID của đơn hàng
+    public List<DTOProduct>findAllDTOProductByOrderId(Long idOrder){
+        List<DTOProduct> dtoProducts = new ArrayList<>();
+        ArrayList<Product> products = (ArrayList<Product>)findAllProductByOrderId(idOrder);
+        return getImg(dtoProducts,products);
     }
 }

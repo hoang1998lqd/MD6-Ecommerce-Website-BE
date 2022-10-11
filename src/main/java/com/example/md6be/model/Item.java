@@ -16,7 +16,6 @@ public class Item {
 
     private int quantity;
 
-
     @ManyToOne
     private Product product;
 

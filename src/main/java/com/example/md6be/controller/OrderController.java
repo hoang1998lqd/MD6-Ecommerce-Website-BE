@@ -6,6 +6,7 @@ import com.example.md6be.model.Orders;
 import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,8 @@ public class OrderController {
 
 
     @PostMapping("/order-detail")
-    private ResponseEntity<Order_detail> createOrderDetail(@RequestBody Order_detail order_detail){
-        return new ResponseEntity<>(detailService.save(order_detail), HttpStatus.CREATED);
+    private ResponseEntity<List<Order_detail>> createOrderDetail(@RequestBody List<Order_detail> order_details){
+        return new ResponseEntity<>(detailService.saveAll(order_details), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -53,9 +54,9 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/{idCustomer}")
-    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idCustomer){
-        ordersService.delete(idCustomer);
+    @PutMapping("/{idOrder}")
+    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idOrder){
+        ordersService.rejectOrder(idOrder);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -64,5 +65,12 @@ public class OrderController {
     private ResponseEntity<Long> findNewOrderId() {
         return new ResponseEntity<>(ordersService.findNewOrderId(), HttpStatus.OK);
     }
+
+    //Tìm kiếm thông tin đơn hàng của cửa hàng đó
+    @GetMapping("/shop/{idCustomer}")
+    private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer){
+        return  new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer),HttpStatus.OK);
+    }
+
     
 }

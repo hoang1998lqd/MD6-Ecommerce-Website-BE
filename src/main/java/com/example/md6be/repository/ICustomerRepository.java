@@ -22,6 +22,12 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true)
     List<Integer> findRoleByCustomerId(Long idCustomer);
 
-    List<Customer> findAllBy();
+    // Tìm kiếm những người dùng có quyền là bán hàng
+    @Query(value = "select * from customer where id in (select id from customer left join customer_role on customer.id = customer_id where role_id = 2)",
+            nativeQuery = true)
+    List<Customer> findCustomerHaveShop();
+
+   List<Customer> findAllBy();
+
 
 }

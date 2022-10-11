@@ -15,9 +15,11 @@ public interface ICustomerService extends IGeneralService<Customer>, UserDetails
     Optional<Customer> findByEmailAddressAndPassword(String email, String password);
 
     Optional<Customer> findByName (String name);
+    Optional<Customer> findCustomerById (Long idCustomer);
 
     Optional<Customer> findByEmailAddress (String email);
     Long findNewCustomerId();
     List <Integer> findRoleByCustomerId(Long id);
+    List<Customer> findCustomerHaveShop();
 
 }

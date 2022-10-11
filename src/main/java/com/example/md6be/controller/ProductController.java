@@ -133,6 +133,12 @@ public class ProductController {
         return new ResponseEntity<>(iProduct.findAllDTOProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand), HttpStatus.OK);
     }
 
+    // Tìm kiếm sản phẩm theo ID của đơn hàng
+    @GetMapping("/orders/{idOrder}")
+    private ResponseEntity<List<DTOProduct>>findAllDTOProductByOrderId(@PathVariable Long idOrder){
+        return new ResponseEntity<>(iProduct.findAllDTOProductByOrderId(idOrder),HttpStatus.OK);
+    }
+
     @GetMapping("/detail-product/{idCustomer}&{idProduct}")
     private ResponseEntity<?> detailProduct(@PathVariable("idCustomer") Long idCustomer, @PathVariable("idProduct") Long id){
         List<DTOProduct> dtoProductList = iProduct.findAllProductNotCustomerId(idCustomer);
