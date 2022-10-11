@@ -11,5 +11,5 @@ import java.util.List;
 public interface IOrder_detailRepository extends JpaRepository<Order_detail, Long> {
 
     @Query(value = "select * from order_detail where orders_id = ?1", nativeQuery = true)
-    List<Order_detail> findAllByOrderId(@Param("id") Long id);
+    List<Order_detail> findAllByOrderId(@Param("idOrder") Long idOrder);
 }

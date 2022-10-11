@@ -17,6 +17,8 @@ public class OrderService implements IOrdersService {
     @Autowired
     IOrdersRepository ordersRepository;
 
+
+    // tìm kiếm đơn haàng có tồn tại
     @Override
     public List<Orders> findAll() {
         List<Orders> orders = ordersRepository.findAll();
@@ -66,7 +68,14 @@ public class OrderService implements IOrdersService {
     }
 
     @Override
-    public List<Orders> findAllOrderByShopId(Long idCustomer) {
-        return ordersRepository.findAllOrderByShopId(idCustomer);
+    public List<Orders> findAllOrderByShopId(Long idShop) {
+        return ordersRepository.findAllOrderByShopId(idShop);
     }
+
+    @Override
+    public List<Orders> findOrdersByStatusAndCustomer(Long idCustomer) {
+        return ordersRepository.findOrdersByStatusAndCustomer(idCustomer);
+    }
+
+
 }

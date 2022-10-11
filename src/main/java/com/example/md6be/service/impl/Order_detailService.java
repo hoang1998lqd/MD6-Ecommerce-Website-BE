@@ -35,7 +35,7 @@ public class Order_detailService implements IOrder_detailService {
     }
 
     @Override
-    public List<Order_detail> findAllByOrderId(Long id) {
-        return detailRepository.findAllByOrderId(id);
+    public List<Order_detail> findAllByOrderId(Long idOrder) {
+        return detailRepository.findAllByOrderId(idOrder);
     }
 }

@@ -67,15 +67,21 @@ public class OrderController {
     }
 
     //Tìm kiếm thông tin đơn hàng của cửa hàng đó
-    @GetMapping("/shop/{idCustomer}")
-    private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer){
-        return  new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer),HttpStatus.OK);
+    @GetMapping("/shop/{idShop}")
+    private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idShop){
+        return  new ResponseEntity<>(ordersService.findAllOrderByShopId(idShop),HttpStatus.OK);
+    }
+
+    // tìm kiếm đơn hàng còn tồn taị theo id người dùng
+    @GetMapping("/order-customer/{id}")
+    private ResponseEntity<List<Orders>> findAllOrderByOrderId(@PathVariable Long idCustomer){
+        return new ResponseEntity<>(ordersService.findOrdersByStatusAndCustomer(idCustomer), HttpStatus.OK);
     }
 
 
-    @GetMapping("/order-detail/by-all-order/{id}")
-    private ResponseEntity<List<Order_detail>> findAllOrderDetailByOrderId(@PathVariable Long id){
-        return new ResponseEntity<>(detailService.findAllByOrderId(id), HttpStatus.OK);
+    // tìm kiếm tất cả order-detail theo 1 order
+    @GetMapping("/order-detail-order/{idOrder}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByOrder(@PathVariable Long idOrder){
+        return  new ResponseEntity<>(detailService.findAllByOrderId(idOrder), HttpStatus.OK);
     }
-    
 }
