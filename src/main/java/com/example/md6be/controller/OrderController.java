@@ -41,8 +41,8 @@ public class OrderController {
 
 
     @PostMapping("/order-detail")
-    private ResponseEntity<Order_detail> createOrderDetail(@RequestBody Order_detail order_detail){
-        return new ResponseEntity<>(detailService.save(order_detail), HttpStatus.CREATED);
+    private ResponseEntity<List<Order_detail>> createOrderDetail(@RequestBody List<Order_detail> order_details){
+        return new ResponseEntity<>(detailService.saveAll(order_details), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -54,9 +54,9 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/{idCustomer}")
-    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idCustomer){
-        ordersService.delete(idCustomer);
+    @PutMapping("/{idOrder}")
+    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idOrder){
+        ordersService.rejectOrder(idOrder);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

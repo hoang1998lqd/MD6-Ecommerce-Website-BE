@@ -59,6 +59,11 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
+    public Optional<Customer> findCustomerById(Long idCustomer) {
+        return customerRepository.findById(idCustomer);
+    }
+
+    @Override
     public Optional<Customer> findByEmailAddress(String email) {
         return customerRepository.findByEmailAddress(email);
     }
@@ -71,5 +76,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public List<Integer> findRoleByCustomerId(Long id) {
         return customerRepository.findRoleByCustomerId(id);
+    }
+
+    @Override
+    public List<Customer> findCustomerHaveShop() {
+        return customerRepository.findCustomerHaveShop();
     }
 }
