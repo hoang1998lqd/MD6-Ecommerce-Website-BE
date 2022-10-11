@@ -52,7 +52,6 @@ public class OrderService implements IOrdersService {
             order.setStatus_exist(0);
             save(order);
         }
-
     }
 
     @Override
@@ -68,5 +67,12 @@ public class OrderService implements IOrdersService {
     @Override
     public List<Orders> findAllOrderByShopId(Long idCustomer) {
         return ordersRepository.findAllOrderByShopId(idCustomer);
+    }
+
+    @Override
+    public void rejectOrder(Long idOrder) {
+        Orders orders = ordersRepository.rejectOrder(idOrder);
+        orders.setStatus_exist(0);
+        save(orders);
     }
 }

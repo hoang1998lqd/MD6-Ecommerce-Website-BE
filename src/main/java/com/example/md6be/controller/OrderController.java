@@ -3,7 +3,6 @@ package com.example.md6be.controller;
 
 import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
-import com.example.md6be.service.ICustomerService;
 import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +24,9 @@ public class OrderController {
     @Autowired
     IOrdersService ordersService;
 
-    @Autowired
-    ICustomerService customerService;
-
     @GetMapping
     private ResponseEntity<List<Orders>> findAllOrder() {
         return new ResponseEntity<>(ordersService.findAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    private ResponseEntity<Orders> findOrderById(@PathVariable Long id) {
-        Optional<Orders> orders = ordersService.findById(id);
-        if (orders.isPresent()) {
-            return new ResponseEntity<>(orders.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/order-detail")
@@ -48,28 +35,28 @@ public class OrderController {
     }
 
     @PostMapping
-    private ResponseEntity<Orders> createOrder(@RequestBody Orders order) {
+    private ResponseEntity<Orders> createOrder(@RequestBody Orders order){
         return new ResponseEntity<>(ordersService.save(order), HttpStatus.CREATED);
     }
 
 
     @PostMapping("/order-detail")
-    private ResponseEntity<Order_detail> createOrderDetail(@RequestBody Order_detail order_detail) {
-        return new ResponseEntity<>(detailService.save(order_detail), HttpStatus.CREATED);
+    private ResponseEntity<List<Order_detail>> createOrderDetail(@RequestBody List<Order_detail> order_details){
+        return new ResponseEntity<>(detailService.saveAll(order_details), HttpStatus.CREATED);
     }
 
     @PutMapping
-    private ResponseEntity<Orders> updateOrder(@RequestBody Orders order) {
+    private ResponseEntity<Orders> updateOrder(@RequestBody Orders order){
         Optional<Orders> ordersOptional = ordersService.findById(order.getId());
-        if (ordersOptional.isPresent()) {
-            return new ResponseEntity<>(ordersService.save(order), HttpStatus.OK);
+        if(ordersOptional.isPresent()){
+            return new ResponseEntity<>(ordersService.save(order),HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/{idCustomer}")
-    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idCustomer) {
-        ordersService.delete(idCustomer);
+    @PutMapping("/{idOrder}")
+    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idOrder){
+        ordersService.rejectOrder(idOrder);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -79,19 +66,16 @@ public class OrderController {
         return new ResponseEntity<>(ordersService.findNewOrderId(), HttpStatus.OK);
     }
 
+    //Tìm kiếm thông tin đơn hàng của cửa hàng đó
+    @GetMapping("/shop/{idCustomer}")
+    private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer){
+        return  new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer),HttpStatus.OK);
+    }
+
     // Hiển thị danh sách đơn hàng của người đang đăng nhập
     @GetMapping("/id-customer/{id}")
     private ResponseEntity<List<?>> findOrderByCustomerId(@PathVariable Long id) {
         List<Orders> orders = ordersService.findOrdersByCustomerId(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
-
-
-    //Tìm kiếm thông tin đơn hàng của cửa hàng đó
-    @GetMapping("/shop/{idCustomer}")
-    private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer) {
-        return new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer), HttpStatus.OK);
-    }
-
-
 }

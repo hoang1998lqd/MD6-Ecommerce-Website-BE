@@ -7,6 +7,7 @@ import com.example.md6be.model.Customer;
 import com.example.md6be.model.Role;
 import com.example.md6be.service.ICustomerService;
 import com.example.md6be.service.IRoleService;
+import com.example.md6be.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +42,10 @@ public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private EmailService emailService;
+
     @GetMapping
-    public ResponseEntity<List<Customer>> findAll(){
+    public ResponseEntity<List<Customer>> findAll() {
         return new ResponseEntity<>(iCustomerService.findAll(), HttpStatus.OK);
     }
 
@@ -53,25 +56,25 @@ public class CustomerController {
 
 
     @GetMapping("/find/{email}")
-    public ResponseEntity<?> findByEmail(@PathVariable("email") String email){
+    public ResponseEntity<?> findByEmail(@PathVariable("email") String email) {
         return new ResponseEntity<>(iCustomerService.findByEmailAddress(email), HttpStatus.OK);
     }
 
     //UPdate Img
     @PutMapping("/update-customer/{id}")
-    private ResponseEntity<?> updateCustomer(@PathVariable("id") Long id ,@RequestBody Customer customer){
+    private ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer customer) {
         Optional<Customer> customerOptional = iCustomerService.findById(id);
-        if (customerOptional.isPresent()){
-            return new ResponseEntity<>(iCustomerService.save(customer),HttpStatus.OK);
+        if (customerOptional.isPresent()) {
+            return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/find-customer-by-id/{idCustomer}")
-    private ResponseEntity<Customer> findCustomerById(@PathVariable("idCustomer") Long idCustomer){
+    private ResponseEntity<Customer> findCustomerById(@PathVariable("idCustomer") Long idCustomer) {
         Optional<Customer> customerOptional = iCustomerService.findById(idCustomer);
-        if (customerOptional.isPresent()){
-            return new ResponseEntity<>(customerOptional.get(),HttpStatus.OK);
+        if (customerOptional.isPresent()) {
+            return new ResponseEntity<>(customerOptional.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -102,8 +105,13 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        iCustomerService.save(customer);
-        return new ResponseEntity<>(iCustomerService.save(customer),HttpStatus.CREATED);
+        try {
+            iCustomerService.save(customer);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
+        emailService.sendEmail(customer);
+        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
     }
 
     @GetMapping("/role")
@@ -113,11 +121,18 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete-customer/{id}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id) {
         Optional<Customer> customerOptional = iCustomerService.findById(id);
-        if (customerOptional.isPresent()){
-            return new ResponseEntity<>("The customer has been deleted ",HttpStatus.OK);
+        if (customerOptional.isPresent()) {
+            return new ResponseEntity<>("The customer has been deleted ", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    // Tìm kiếm List người dùng có quyền bán hàng
+    @GetMapping("/shop")
+    public ResponseEntity<List<Customer>> findCustomerHaveShop(){
+        return new  ResponseEntity<>(iCustomerService.findCustomerHaveShop(),HttpStatus.OK);
+    }
+
 }
