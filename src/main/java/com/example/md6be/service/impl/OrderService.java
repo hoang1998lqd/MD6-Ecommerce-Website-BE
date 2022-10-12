@@ -78,4 +78,11 @@ public class OrderService implements IOrdersService {
         save(orders);
     }
 
+    @Override
+    public void updateStatusOrder(Long idOrder) {
+        Orders orders = ordersRepository.rejectOrder(idOrder);
+        orders.setStatus_order(1);
+        save(orders);
+    }
+
 }

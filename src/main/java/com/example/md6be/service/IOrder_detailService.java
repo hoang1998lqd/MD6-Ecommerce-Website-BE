@@ -10,4 +10,6 @@ public interface IOrder_detailService extends IGeneralService<Order_detail> {
     List<Order_detail> findAllByOrderId(Long id);
 
     List<Order_detail> findAllOrderDetailById(Long idShop);
+
+    List<Order_detail> findAllOrderDetailByShopId(Long idShop);
 }
