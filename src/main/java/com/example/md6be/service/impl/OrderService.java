@@ -1,10 +1,7 @@
 package com.example.md6be.service.impl;
 
-<<<<<<< HEAD
 import com.example.md6be.model.Cart;
-=======
 import com.example.md6be.model.Order_detail;
->>>>>>> 0a4c9c45d9fee0cf6f2e637f0009f94b414d394e
 import com.example.md6be.model.Orders;
 import com.example.md6be.model.Product;
 import com.example.md6be.repository.IOrdersRepository;

@@ -75,14 +75,12 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-<<<<<<< HEAD
     //    checkout
 //    @GetMapping("/item/{idCustomer}")
 //    private ResponseEntity<Item> pay(@PathVariable Long idCustomer){
 //
 //    }
 
-=======
     // Xóa tất cả Item sau khi đặt hàng thành công
     @DeleteMapping("/item")
     private ResponseEntity<List<Item>> deleteAllItem(@RequestBody List<Item> items){
@@ -105,5 +103,4 @@ public class CartController {
     private ResponseEntity<List<DTOItem>> findAllDTOItem(@PathVariable Long idCustomer){
         return new ResponseEntity<>(itemService.findAllDTOItem(idCustomer),HttpStatus.OK);
     }
->>>>>>> 0a4c9c45d9fee0cf6f2e637f0009f94b414d394e
 }

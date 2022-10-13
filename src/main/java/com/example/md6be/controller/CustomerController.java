@@ -8,11 +8,8 @@ import com.example.md6be.model.Role;
 import com.example.md6be.model.Voucher;
 import com.example.md6be.service.ICustomerService;
 import com.example.md6be.service.IRoleService;
-<<<<<<< HEAD
 import com.example.md6be.service.impl.VoucherService;
-=======
 import com.example.md6be.service.impl.EmailService;
->>>>>>> 0a4c9c45d9fee0cf6f2e637f0009f94b414d394e
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -113,10 +110,8 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-<<<<<<< HEAD
-        iCustomerService.save(customer);
-        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
-=======
+//        iCustomerService.save(customer);
+//        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
         Customer customer1;
         try {
             customer1 = iCustomerService.save(customer);
@@ -129,7 +124,6 @@ public class CustomerController {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(customer1,HttpStatus.CREATED);
->>>>>>> 0a4c9c45d9fee0cf6f2e637f0009f94b414d394e
     }
 
     @GetMapping("/role")
@@ -143,7 +137,6 @@ public class CustomerController {
         Optional<Customer> customerOptional = iCustomerService.findById(id);
         if (customerOptional.isPresent()) {
             return new ResponseEntity<>("The customer has been deleted ", HttpStatus.OK);
-<<<<<<< HEAD
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -153,8 +146,6 @@ public class CustomerController {
         Optional<Voucher> optionalVoucher = voucherService.findById(id);
         if (optionalVoucher.isPresent()) {
             return new ResponseEntity<>(optionalVoucher.get(), HttpStatus.OK);
-=======
->>>>>>> 0a4c9c45d9fee0cf6f2e637f0009f94b414d394e
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
