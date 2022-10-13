@@ -3,6 +3,7 @@ package com.example.md6be.controller;
 
 import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
+import com.example.md6be.model.Product;
 import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,22 @@ public class OrderController {
     private ResponseEntity<List<Orders>> findAllOrder() {
         return new ResponseEntity<>(ordersService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("{idOrder}")
+    private ResponseEntity<Orders> findOrderById(@PathVariable Long idOrder) {
+        Optional<Orders> ordersOptional = ordersService.findById(idOrder);
+        if (ordersOptional.isPresent()) {
+            return new ResponseEntity<>(ordersOptional.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("order-detail/{idOrder}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByOrderId(@PathVariable Long idOrder) {
+       return new ResponseEntity<>(detailService.findAllByOrderId(idOrder),HttpStatus.OK);
+    }
 
     @GetMapping("/order-detail")
     private ResponseEntity<List<Order_detail>> findAllOrderDetail() {
+
         return new ResponseEntity<>(detailService.findAll(), HttpStatus.OK);
     }
 
@@ -45,6 +59,8 @@ public class OrderController {
         return new ResponseEntity<>(detailService.saveAll(order_details), HttpStatus.CREATED);
     }
 
+
+
     @PutMapping
     private ResponseEntity<Orders> updateOrder(@RequestBody Orders order){
         Optional<Orders> ordersOptional = ordersService.findById(order.getId());
@@ -53,6 +69,20 @@ public class OrderController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    // Update đơn hàng khi CỬA HÀNG XÁC NHẬN GỬI HÀNG
+      @PutMapping("/update-quantity/{idOrder}")
+    private ResponseEntity<Orders> updateOrderAndQuantityProduct(@PathVariable Long idOrder){
+        Optional<Orders> ordersOptional = ordersService.findById(idOrder);
+        if(ordersOptional.isPresent()){
+            Orders order =ordersOptional.get();
+            order.setStatus_order(1);
+            return new ResponseEntity<>(ordersService.updateOrderAndQuantityProduct(order),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
 
     @PutMapping("/{idOrder}")
     private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idOrder){
