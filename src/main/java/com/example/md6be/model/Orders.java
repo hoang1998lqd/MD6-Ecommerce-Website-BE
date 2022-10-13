@@ -1,5 +1,7 @@
 package com.example.md6be.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,4 +45,10 @@ public class Orders {
 
     @ManyToOne
     private Customer customer;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "shop_id", insertable = false, updatable = false)
+    private Customer shop;
+
 }

@@ -1,16 +1,19 @@
 package com.example.md6be.service.impl;
 
 import com.example.md6be.model.Category;
+
 import com.example.md6be.model.DTO.DTOCategoryBrand;
+
 import com.example.md6be.repository.CategoryRepository;
 import com.example.md6be.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CategoryService implements ICategoryService {
     @Autowired
@@ -18,6 +21,7 @@ public class CategoryService implements ICategoryService {
 
     @Autowired
     private DTOCategoryAndBrandService dtoCategoryAndBrandService;
+
     @Override
     public List<Category> findAll() {
         return categoryRepository.findAll();
@@ -42,4 +46,6 @@ public class CategoryService implements ICategoryService {
     public List<DTOCategoryBrand> findBrandByCategoryId() {
         return dtoCategoryAndBrandService.findBrandByCategoryId();
     }
+
 }
+

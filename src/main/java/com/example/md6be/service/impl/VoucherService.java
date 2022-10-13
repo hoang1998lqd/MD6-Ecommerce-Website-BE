@@ -18,6 +18,12 @@ public class VoucherService implements IVoucherService {
     public Iterable<Voucher> findAllByCustomer_Id(Long id) {
         return voucherRepo.findAllByCustomer_Id(id);
     }
+
+    @Override
+    public List<Voucher> findAllByNameContaining(Long idCustomer, String name) {
+        return null;
+    }
+
     @Override
     public List<Voucher> findAll() {
         return voucherRepo.findAll();

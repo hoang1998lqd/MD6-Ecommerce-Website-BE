@@ -94,13 +94,48 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/find-name-products/{name}&{idCustomer}")
+    private ResponseEntity<List<DTOProduct>> findAllByNameContaining(@PathVariable("name") String name, @PathVariable Long idCustomer) {
+        return new ResponseEntity<>(iProduct.findDTOAllByNameContaining(idCustomer, name), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-id/{id}&{idCustomer}")
+    private ResponseEntity<List<DTOProduct>> findProductByCategoryId(@PathVariable("id") long id,
+                                                                     @PathVariable Long idCustomer) {
+        return new ResponseEntity<>(iProduct.findDTOAllByCategoryId(idCustomer, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-by-price/{priceMin}&{priceMax}&{idCustomer}")
+    private ResponseEntity<List<DTOProduct>> findProductByPrice(@PathVariable("priceMin") Optional<Double> priceMin,
+                                                                @PathVariable("priceMax") Optional<Double> priceMax,
+                                                                @PathVariable("idCustomer") Long idCustomer) {
+        Double min = priceMin.orElse(Double.MIN_VALUE);
+        Double max = priceMax.orElse(Double.MAX_VALUE);
+        List<DTOProduct> betweenPrice = iProduct.findDTOProductByPriceBetween(idCustomer, min, max);
+        return new ResponseEntity<>(betweenPrice, HttpStatus.OK);
+    }
+
     @GetMapping("/customer/{id}")
-    private ResponseEntity<List<DTOProduct>> getProductByCustomerId(@PathVariable Long id){
-        return new ResponseEntity<>(iProduct.findAllProductByCustomerId(id),HttpStatus.OK);
+    private ResponseEntity<List<DTOProduct>> getProductByCustomerId(@PathVariable Long id) {
+        return new ResponseEntity<>(iProduct.findAllProductByCustomerId(id), HttpStatus.OK);
     }
 
     @GetMapping("/not-customer/{idCustomer}")
-    private ResponseEntity<List<DTOProduct>> findAllProductNotByCustomerId(@PathVariable Long idCustomer){
-        return new ResponseEntity<>(iProduct.findAllProductNotCustomerId(idCustomer),HttpStatus.OK);
+    private ResponseEntity<List<DTOProduct>> findAllProductNotByCustomerId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(iProduct.findAllProductNotCustomerId(idCustomer), HttpStatus.OK);
+    }
+
+    //Tìm kiếm sản phẩm theo idCategory và idBrand
+    @GetMapping("/brand/{idCustomer}&{idCategory}&{idBrand}")
+    private ResponseEntity<List<DTOProduct>> findAllProductByCategoryIdAndBrandId(@PathVariable Long idCustomer,
+                                                                                  @PathVariable Long idCategory,
+                                                                                  @PathVariable Long idBrand) {
+        return new ResponseEntity<>(iProduct.findAllDTOProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand), HttpStatus.OK);
+    }
+
+    // Tìm kiếm sản phẩm theo ID của đơn hàng
+    @GetMapping("/orders/{idOrder}")
+    private ResponseEntity<List<DTOProduct>>findAllDTOProductByOrderId(@PathVariable Long idOrder){
+        return new ResponseEntity<>(iProduct.findAllDTOProductByOrderId(idOrder),HttpStatus.OK);
     }
 }

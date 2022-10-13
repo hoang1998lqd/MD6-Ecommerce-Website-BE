@@ -5,8 +5,10 @@ import com.example.md6be.jwt.JwtResponse;
 import com.example.md6be.jwt.JwtService;
 import com.example.md6be.model.Customer;
 import com.example.md6be.model.Role;
+import com.example.md6be.model.Voucher;
 import com.example.md6be.service.ICustomerService;
 import com.example.md6be.service.IRoleService;
+import com.example.md6be.service.impl.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +42,11 @@ public class CustomerController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private VoucherService voucherService;
 
     @GetMapping
-    public ResponseEntity<List<Customer>> findAll(){
+    public ResponseEntity<List<Customer>> findAll() {
         return new ResponseEntity<>(iCustomerService.findAll(), HttpStatus.OK);
     }
 
@@ -53,36 +57,39 @@ public class CustomerController {
 
 
     @GetMapping("/find/{email}")
-    public ResponseEntity<?> findByEmail(@PathVariable("email") String email){
+    public ResponseEntity<?> findByEmail(@PathVariable("email") String email) {
         return new ResponseEntity<>(iCustomerService.findByEmailAddress(email), HttpStatus.OK);
     }
 
     //UPdate Img
-    @PutMapping()
-    private ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer){
-        return new ResponseEntity<>(iCustomerService.save(customer),HttpStatus.OK);
+    @PutMapping("/update-customer/{id}")
+    private ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer customer) {
+        Optional<Customer> customerOptional = iCustomerService.findById(id);
+        if (customerOptional.isPresent()) {
+            return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{idCustomer}")
-    private ResponseEntity<Customer> findCustomerById(@PathVariable Long idCustomer){
+    @GetMapping("/find-customer-by-id/{idCustomer}")
+    private ResponseEntity<Customer> findCustomerById(@PathVariable("idCustomer") Long idCustomer) {
         Optional<Customer> customerOptional = iCustomerService.findById(idCustomer);
-        if (customerOptional.isPresent()){
-            return new ResponseEntity<>(customerOptional.get(),HttpStatus.OK);
+        if (customerOptional.isPresent()) {
+            return new ResponseEntity<>(customerOptional.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Customer customer) {
+    @PostMapping("/login/{email}-{password}")
+    public ResponseEntity<?> login(@PathVariable("email") String email, @PathVariable("password") String password) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(customer.getEmailAddress(), customer.getPassword()));
+                new UsernamePasswordAuthenticationToken(email, password));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Customer currentUser = iCustomerService.findByEmailAddress(customer.getEmailAddress()).get();
+        Customer currentUser = iCustomerService.findByEmailAddress(email).get();
         return ResponseEntity.ok(new JwtResponse(currentUser.getId(), jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
@@ -100,19 +107,30 @@ public class CustomerController {
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         iCustomerService.save(customer);
-        return new ResponseEntity<>(iCustomerService.save(customer),HttpStatus.CREATED);
+        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
     }
 
     @GetMapping("/role")
-    public ResponseEntity<Iterable<Role>> getRole() {
-        Iterable<Role> roles = iRoleService.findAll();
+    public ResponseEntity<List<Role>> getRole() {
+        List<Role> roles = iRoleService.findAll();
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
-    @GetMapping("/role/{idCustomer}")
-    public ResponseEntity<Iterable<Integer>> findRollByCustomerId(@PathVariable Long idCustomer) {
-        Iterable<Integer> roles = iCustomerService.findRoleByCustomerId(idCustomer);
-        return new ResponseEntity<>(roles, HttpStatus.OK);
+    @DeleteMapping("/delete-customer/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id) {
+        Optional<Customer> customerOptional = iCustomerService.findById(id);
+        if (customerOptional.isPresent()) {
+            return new ResponseEntity<>("The customer has been deleted ", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/get-discount/{id}")
+    public ResponseEntity<?> getDiscount(@PathVariable("id") Long id) {
+        Optional<Voucher> optionalVoucher = voucherService.findById(id);
+        if (optionalVoucher.isPresent()) {
+            return new ResponseEntity<>(optionalVoucher.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

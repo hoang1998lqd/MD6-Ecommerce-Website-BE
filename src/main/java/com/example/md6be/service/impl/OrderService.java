@@ -67,4 +67,9 @@ public class OrderService implements IOrdersService {
     }
 
 
+
+    @Override
+    public List<Orders> findAllOrderByShopId(Long idCustomer) {
+        return ordersRepository.findAllOrderByShopId(idCustomer);
+    }
 }

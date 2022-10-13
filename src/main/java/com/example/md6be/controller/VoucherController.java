@@ -1,5 +1,6 @@
 package com.example.md6be.controller;
 
+import com.example.md6be.model.DTO.DTOProduct;
 import com.example.md6be.model.Product;
 import com.example.md6be.model.Voucher;
 import com.example.md6be.service.IVoucherService;
@@ -8,24 +9,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping(value="/api/voucher")
+@RequestMapping(value = "/api/voucher")
 
 public class VoucherController {
     @Autowired
     private IVoucherService voucherService;
-    @GetMapping("/find-voucher/{CustomerId}")
-    public ResponseEntity<?> findAllByStore_Id(@PathVariable("CustomerId") Long CustomerId) {
-        Iterable<Voucher> vouchers = voucherService.findAllByCustomer_Id(CustomerId);
-        return new ResponseEntity<>(vouchers, HttpStatus.OK);
+
+    @GetMapping
+    public ResponseEntity<List<Voucher>> findAll() {
+        return new ResponseEntity<>(voucherService.findAll(), HttpStatus.OK);
     }
-//    @PostMapping
-//    public ResponseEntity<?> createVoucher(@RequestBody Voucher voucher) {
-//        return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.CREATED);
-//    }
+
+    @GetMapping("/find-voucher/{idCustomer}")
+    public ResponseEntity<?> findAllByStore_Id(@PathVariable("idCustomer") Long idCustomer) {
+        return new ResponseEntity<>(voucherService.findAllByCustomer_Id(idCustomer), HttpStatus.OK);
+    }
+
+
     @PostMapping
     private ResponseEntity<Voucher> createVoucher(@RequestBody Voucher voucher) {
         return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.CREATED);
@@ -36,16 +41,17 @@ public class VoucherController {
         Optional<Voucher> voucherOptional = voucherService.findById(id);
         if (!voucherOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else {
+        } else {
             voucherService.delete(id);
             return new ResponseEntity<>(voucherOptional.get(), HttpStatus.OK);
         }
     }
+
     @PutMapping("/update-voucher")
-    private ResponseEntity<?> updateVoucher(@RequestBody Voucher voucher){
+    private ResponseEntity<?> updateVoucher(@RequestBody Voucher voucher) {
         Optional<Voucher> voucherOptional = voucherService.findById(voucher.getId());
-        if(voucherOptional.isPresent()){
-            return new ResponseEntity<>(voucherService.save(voucher),HttpStatus.OK);
+        if (voucherOptional.isPresent()) {
+            return new ResponseEntity<>(voucherService.save(voucher), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
