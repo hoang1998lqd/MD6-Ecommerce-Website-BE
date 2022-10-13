@@ -85,7 +85,7 @@ public class OrderService implements IOrdersService {
                 return (int) (t1.getId() - orders.getId());
             }
         });
-        Collections.sort(orders, new Comparator<Orders>() {
+        orders.sort(new Comparator<Orders>() {
             @Override
             public int compare(Orders orders, Orders t1) {
                 return orders.getStatus_order() - t1.getStatus_order();
