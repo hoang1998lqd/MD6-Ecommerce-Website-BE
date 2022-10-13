@@ -1,5 +1,6 @@
 package com.example.md6be.service;
 
+import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;

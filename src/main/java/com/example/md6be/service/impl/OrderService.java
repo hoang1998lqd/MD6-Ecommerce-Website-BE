@@ -1,5 +1,6 @@
 package com.example.md6be.service.impl;
 
+import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
 import com.example.md6be.repository.IOrdersRepository;
 import com.example.md6be.service.IOrdersService;
@@ -67,8 +68,14 @@ public class OrderService implements IOrdersService {
     }
 
     @Override
-    public List<Orders> findAllOrderByShopId(Long idShop) {
-        return ordersRepository.findAllOrderByShopId(idShop);
+
+//    public List<Orders> findAllOrderByShopId(Long idShop) {
+//        return ordersRepository.findAllOrderByShopId(idShop);
+
+    public List<Orders> findAllOrderByShopId(Long idCustomer) {
+        List<Orders> orders = ordersRepository.findAllOrderByShopId(idCustomer);
+        return ordersRepository.findAllOrderByShopId(idCustomer);
+
     }
 
     @Override

@@ -42,6 +42,7 @@ public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
     private EmailService emailService;
 
     @GetMapping
@@ -105,13 +106,18 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        Customer customer1;
         try {
-            iCustomerService.save(customer);
+            customer1 = iCustomerService.save(customer);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
-        emailService.sendEmail(customer);
-        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
+        try {
+            emailService.sendEmail(customer);
+        }catch (Exception e){
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(customer1,HttpStatus.CREATED);
     }
 
     @GetMapping("/role")

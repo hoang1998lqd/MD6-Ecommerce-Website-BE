@@ -91,4 +91,9 @@ public class OrderController {
         return new ResponseEntity<>(detailService.findAllOrderDetailByCustomerId(idCustomer),HttpStatus.OK);
     }
 
+    //Tìm kiếm thông tin chi tiết đơn hàng của cửa hàng đó
+    @GetMapping("/shop&{idCustomer}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailById(@PathVariable Long idCustomer){
+        return  new ResponseEntity<>(detailService.findAllOrderDetailById(idCustomer),HttpStatus.OK);
+    }
 }
