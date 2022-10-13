@@ -90,6 +90,15 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    // Xác nhận đơn hàng
+    @PutMapping("/status-order/{idOrder}")
+    private ResponseEntity<?> updateStatusOrder(@PathVariable Long idOrder){
+        ordersService.updateStatusOrder(idOrder);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
     // Lấy ID mới nhất vừa tạo của Orders
     @GetMapping("/id-new-order")
     private ResponseEntity<Long> findNewOrderId() {
@@ -103,10 +112,16 @@ public class OrderController {
     }
 
 
-    //Tìm kiếm thông tin chi tiết đơn hàng của cửa hàng đó
+    //Tìm kiếm thông tin chi tiết đơn hàng của NGƯỜI DÙNG đó
     @GetMapping("/shop&{idCustomer}")
     private ResponseEntity<List<Order_detail>> findAllOrderDetailById(@PathVariable Long idCustomer){
         return  new ResponseEntity<>(detailService.findAllOrderDetailById(idCustomer),HttpStatus.OK);
+    }
+
+    //Tìm kiếm thông tin chi tiết đơn hàng của NGƯỜI BÁN HÀNG đó
+    @GetMapping("/shop-id&{idShop}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByShopId(@PathVariable Long idShop){
+        return  new ResponseEntity<>(detailService.findAllOrderDetailByShopId(idShop),HttpStatus.OK);
     }
 
     

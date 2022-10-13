@@ -15,7 +15,10 @@ public interface IOrdersService extends IGeneralService<Orders> {
     List<Orders> findAllOrderByShopId( Long idCustomer);
 
     void rejectOrder(Long idOrder);
+
     Orders updateOrderAndQuantityProduct(Orders orders);
+
+    void updateStatusOrder(Long idOrder);
 
 
 }

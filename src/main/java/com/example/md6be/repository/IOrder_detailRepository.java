@@ -13,7 +13,15 @@ public interface IOrder_detailRepository extends JpaRepository<Order_detail, Lon
     @Query(value = "select * from order_detail where orders_id = ?1", nativeQuery = true)
     List<Order_detail> findAllByOrderId(@Param("id") Long id);
 
+
     // Tìm kiếm toàn bộ Order Detail của Cửa hàng đó
     @Query(value = "select * from order_detail where orders_id in (select id from orders where shop_id = ?1 and status_exist = 1)", nativeQuery = true)
+
+
     List<Order_detail> findAllOrderDetailById(Long idShop);
+
+    // Tìm kiếm toàn bộ Order Detail của NGƯỜI BÁN đó
+    @Query(value = "select * from order_detail where orders_id in (select id from orders where shop_id = ?1 " +
+            "and status_exist = 1)", nativeQuery = true)
+    List<Order_detail> findAllOrderDetailByShopId(Long idShop);
 }

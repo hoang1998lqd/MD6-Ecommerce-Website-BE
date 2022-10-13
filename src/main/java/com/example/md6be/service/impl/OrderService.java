@@ -102,23 +102,31 @@ public class OrderService implements IOrdersService {
     }
 
 
+
     // Cập nhật số lượng khi sản phẩm được CỬA HÀNG ĐÓ XÁC NHẬN SẼ GỬI HÀNG
     @Override
     public Orders updateOrderAndQuantityProduct(Orders orders) {
         Optional<Orders> ordersOptional = findById(orders.getId());
-        if (ordersOptional.isPresent()){
+        if (ordersOptional.isPresent()) {
             List<Order_detail> order_details = iOrder_detailService.findAllByOrderId(ordersOptional.get().getId());
-            for (Order_detail order_detail :order_details){
-               Optional<Product> productOptional = iProductService.findById(order_detail.getProduct().getId());
-               if (productOptional.isPresent()){
-                   Product product = productOptional.get();
-                   int newQuantity = product.getAmount() - order_detail.getQuantity();
-                   product.setAmount(newQuantity);
-                   iProductService.save(product);
-               }
+            for (Order_detail order_detail : order_details) {
+                Optional<Product> productOptional = iProductService.findById(order_detail.getProduct().getId());
+                if (productOptional.isPresent()) {
+                    Product product = productOptional.get();
+                    int newQuantity = product.getAmount() - order_detail.getQuantity();
+                    product.setAmount(newQuantity);
+                    iProductService.save(product);
+                }
             }
         }
         return null;
+    }
+    @Override
+    public void updateStatusOrder(Long idOrder) {
+        Orders orders = ordersRepository.rejectOrder(idOrder);
+        orders.setStatus_order(1);
+        save(orders);
+
     }
 
 }
