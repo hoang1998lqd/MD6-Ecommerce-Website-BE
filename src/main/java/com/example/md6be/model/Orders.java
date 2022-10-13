@@ -10,13 +10,14 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orders {
+public class Orders implements Comparator<Orders> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +28,12 @@ public class Orders {
 
     private LocalDateTime date_ship;
 
+    private Long shop_id;
+
     @Column(length = 500)
     private String description;
 
 //    Trạng thái tồn tại của đơn hàng
-
     @Column(nullable = false)
     private int status_exist = 1;
 
@@ -46,9 +48,9 @@ public class Orders {
     @ManyToOne
     private Customer customer;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "shop_id", insertable = false, updatable = false)
-    private Customer shop;
 
+    @Override
+    public int compare(Orders t, Orders t1) {
+        return (int) (t1.getId() - t.getId());
+    }
 }

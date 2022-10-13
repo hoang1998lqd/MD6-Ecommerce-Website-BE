@@ -1,6 +1,7 @@
 package com.example.md6be.controller;
 
 import com.example.md6be.model.Cart;
+import com.example.md6be.model.DTO.DTOItem;
 import com.example.md6be.model.Item;
 import com.example.md6be.model.Orders;
 import com.example.md6be.service.ICartService;
@@ -74,10 +75,35 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+<<<<<<< HEAD
     //    checkout
 //    @GetMapping("/item/{idCustomer}")
 //    private ResponseEntity<Item> pay(@PathVariable Long idCustomer){
 //
 //    }
 
+=======
+    // Xóa tất cả Item sau khi đặt hàng thành công
+    @DeleteMapping("/item")
+    private ResponseEntity<List<Item>> deleteAllItem(@RequestBody List<Item> items){
+        itemService.deleteAll(items);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+     // Tìm ra List ID của cửa hàng có tồn tại trong List Item trong giỏ hàng của người đang đăng nhập
+    @GetMapping("/item&{idShop}")
+    private ResponseEntity<?> findListIdShop(@PathVariable Long idShop){
+        return new ResponseEntity<>(itemService.findListIdShop(idShop),HttpStatus.OK);
+    }
+
+    // Tìm ra List Item của người đang đăng nhập được chia ra dựa vào Id của Cửa hàng
+    @GetMapping("/item/list-shop/{idShop}&{idCustomer}")
+    private ResponseEntity<List<Item>> findAllItemByIdShop(@PathVariable Long idShop, @PathVariable Long idCustomer){
+        return new ResponseEntity<>(itemService.findAllItemByIdShop(idShop,idCustomer),HttpStatus.OK);
+    }
+    @GetMapping("/dtoItem/{idCustomer}")
+    private ResponseEntity<List<DTOItem>> findAllDTOItem(@PathVariable Long idCustomer){
+        return new ResponseEntity<>(itemService.findAllDTOItem(idCustomer),HttpStatus.OK);
+    }
+>>>>>>> 0a4c9c45d9fee0cf6f2e637f0009f94b414d394e
 }

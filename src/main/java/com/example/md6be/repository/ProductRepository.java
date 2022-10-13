@@ -45,6 +45,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "select * from product where not customer_id = ?1 and status = 1",
             nativeQuery = true)
     List<Product> findAllProduct(Long idCustomer);
+
     @Query(value = "select * from product where not customer_id = ?1 and category_id = ?2 and brand_id = ?3 and status = 1",
             nativeQuery = true)
     List<Product> findAllProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand);
@@ -53,5 +54,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "select * from product where id in (select product_id from order_detail where orders_id = ?1)",
             nativeQuery = true)
     List<Product> findAllProductByOrderId(Long idOrder);
+
+
 
 }
