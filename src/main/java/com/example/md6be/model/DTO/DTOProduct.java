@@ -3,9 +3,10 @@ package com.example.md6be.model.DTO;
 import com.example.md6be.model.Product;
 
 
+import java.util.Comparator;
 import java.util.List;
 
-public class DTOProduct {
+public class DTOProduct implements Comparator<DTOProduct> {
     private Product product;
     private List<String> imageURLS;
 
@@ -31,5 +32,11 @@ public class DTOProduct {
 
     public void setImageURLS(List<String> imageURLS) {
         this.imageURLS = imageURLS;
+    }
+
+
+    @Override
+    public int compare(DTOProduct dtoProduct, DTOProduct t1) {
+        return (int) (t1.getProduct().getId() - dtoProduct.getProduct().getId());
     }
 }

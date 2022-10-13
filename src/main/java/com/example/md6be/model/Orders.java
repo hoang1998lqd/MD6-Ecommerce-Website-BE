@@ -10,13 +10,14 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orders {
+public class Orders implements Comparator<Orders> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +48,8 @@ public class Orders {
     @ManyToOne
     private Customer customer;
 
-
-
-
+    @Override
+    public int compare(Orders t, Orders t1) {
+        return (int) (t1.getId() - t.getId());
+    }
 }

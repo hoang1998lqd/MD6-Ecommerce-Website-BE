@@ -2,15 +2,17 @@ package com.example.md6be.service.impl;
 
 import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
+import com.example.md6be.model.Product;
 import com.example.md6be.repository.IOrdersRepository;
+import com.example.md6be.repository.ProductRepository;
+import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
+import com.example.md6be.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderService implements IOrdersService {
@@ -18,14 +20,22 @@ public class OrderService implements IOrdersService {
     @Autowired
     IOrdersRepository ordersRepository;
 
+    @Autowired
+    IProductService iProductService;
 
-    // tìm kiếm đơn haàng có tồn tại
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    IOrder_detailService iOrder_detailService;
+
+
     @Override
     public List<Orders> findAll() {
         List<Orders> orders = ordersRepository.findAll();
         List<Orders> ordersList = new ArrayList<>();
-        for (Orders order : orders){
-            if (order.getStatus_exist() != 0){
+        for (Orders order : orders) {
+            if (order.getStatus_exist() != 0) {
                 ordersList.add(order);
             }
         }
@@ -51,7 +61,7 @@ public class OrderService implements IOrdersService {
     @Override
     public void delete(Long id) {
         List<Orders> orders = findOrdersByCustomerId(id);
-        for (Orders order : orders){
+        for (Orders order : orders) {
             order.setStatus_exist(0);
             save(order);
         }
@@ -74,7 +84,19 @@ public class OrderService implements IOrdersService {
 
     public List<Orders> findAllOrderByShopId(Long idCustomer) {
         List<Orders> orders = ordersRepository.findAllOrderByShopId(idCustomer);
-        return ordersRepository.findAllOrderByShopId(idCustomer);
+        orders.sort(new Comparator<Orders>() {
+            @Override
+            public int compare(Orders orders, Orders t1) {
+                return (int) (t1.getId() - orders.getId());
+            }
+        });
+        orders.sort(new Comparator<Orders>() {
+            @Override
+            public int compare(Orders orders, Orders t1) {
+                return orders.getStatus_order() - t1.getStatus_order();
+            }
+        });
+        return orders;
 
     }
 
@@ -87,6 +109,34 @@ public class OrderService implements IOrdersService {
         Orders orders = ordersRepository.rejectOrder(idOrder);
         orders.setStatus_exist(0);
         save(orders);
+    }
+
+
+    // Cập nhật số lượng khi sản phẩm được CỬA HÀNG ĐÓ XÁC NHẬN SẼ GỬI HÀNG
+    @Override
+    public Orders updateOrderAndQuantityProduct(Orders orders) {
+        Optional<Orders> ordersOptional = findById(orders.getId());
+        if (ordersOptional.isPresent()) {
+            List<Order_detail> order_details = iOrder_detailService.findAllByOrderId(ordersOptional.get().getId());
+            for (Order_detail order_detail : order_details) {
+                Optional<Product> productOptional = iProductService.findById(order_detail.getProduct().getId());
+                if (productOptional.isPresent()) {
+                    Product product = productOptional.get();
+                    int newQuantity = product.getAmount() - order_detail.getQuantity();
+                    product.setAmount(newQuantity);
+                    iProductService.save(product);
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void updateStatusOrder(Long idOrder) {
+        Orders orders = ordersRepository.rejectOrder(idOrder);
+        orders.setStatus_order(1);
+        save(orders);
+
     }
 
 }

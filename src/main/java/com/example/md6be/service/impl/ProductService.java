@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,7 +93,14 @@ public class ProductService implements IProductService {
 
     @Override
     public List<DTOProduct> findAllProductByCustomerId(Long id) {
-        return dtoProductService.findAllProductByCustomerId(id);
+        List<DTOProduct> dtoProducts = dtoProductService.findAllProductByCustomerId(id);
+        dtoProducts.sort(new Comparator<DTOProduct>() {
+            @Override
+            public int compare(DTOProduct dtoProduct, DTOProduct t1) {
+                return (int) (t1.getProduct().getId() - dtoProduct.getProduct().getId());
+            }
+        });
+        return dtoProducts ;
     }
 
     @Override
@@ -101,7 +110,14 @@ public class ProductService implements IProductService {
 
     @Override
     public List<DTOProduct> findAllProductNotCustomerId(Long idCustomer) {
-        return dtoProductService.findAllProduct(idCustomer);
+        List<DTOProduct>dtoProducts = dtoProductService.findAllProduct(idCustomer);
+        dtoProducts.sort(new Comparator<DTOProduct>() {
+            @Override
+            public int compare(DTOProduct dtoProduct, DTOProduct t1) {
+                return (int) (t1.getProduct().getId() - dtoProduct.getProduct().getId());
+            }
+        });
+        return dtoProducts;
     }
 
     @Override

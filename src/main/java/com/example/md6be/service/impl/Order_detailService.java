@@ -55,4 +55,9 @@ public class Order_detailService implements IOrder_detailService {
     public List<Order_detail> findAllOrderDetailById(Long idShop) {
         return detailRepository.findAllOrderDetailById(idShop);
     }
+
+    @Override
+    public List<Order_detail> findAllOrderDetailByShopId(Long idShop) {
+        return detailRepository.findAllOrderDetailByShopId(idShop);
+    }
 }
