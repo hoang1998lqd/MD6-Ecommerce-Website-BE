@@ -27,6 +27,8 @@ public class Orders {
 
     private LocalDateTime date_ship;
 
+    private Long shop_id;
+
     @Column(length = 500)
     private String description;
 
@@ -46,10 +48,6 @@ public class Orders {
     @ManyToOne
     private Customer customer;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "shop_id", insertable = false, updatable = false)
-    private Customer shop;
 
 
 

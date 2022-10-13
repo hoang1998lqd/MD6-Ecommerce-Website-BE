@@ -41,8 +41,8 @@ public class OrderController {
 
 
     @PostMapping("/order-detail")
-    private ResponseEntity<Order_detail> createOrderDetail(@RequestBody Order_detail order_detail){
-        return new ResponseEntity<>(detailService.save(order_detail), HttpStatus.CREATED);
+    private ResponseEntity<List<Order_detail>> createOrderDetail(@RequestBody List<Order_detail> order_details){
+        return new ResponseEntity<>(detailService.saveAll(order_details), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -54,9 +54,9 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/{idCustomer}")
-    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idCustomer){
-        ordersService.delete(idCustomer);
+    @PutMapping("/{idOrder}")
+    private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idOrder){
+        ordersService.rejectOrder(idOrder);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -73,7 +73,7 @@ public class OrderController {
     }
 
     // tìm kiếm đơn hàng còn tồn taị theo id người dùng
-    @GetMapping("/order-customer/{id}")
+    @GetMapping("/order-customer/{idCustomer}")
     private ResponseEntity<List<Orders>> findAllOrderByOrderId(@PathVariable Long idCustomer){
         return new ResponseEntity<>(ordersService.findOrdersByStatusAndCustomer(idCustomer), HttpStatus.OK);
     }
@@ -84,4 +84,11 @@ public class OrderController {
     private ResponseEntity<List<Order_detail>> findAllOrderDetailByOrder(@PathVariable Long idOrder){
         return  new ResponseEntity<>(detailService.findAllByOrderId(idOrder), HttpStatus.OK);
     }
+
+    // tìm kiếm tất cả order-detail theo idCustomer
+    @GetMapping("/order-detail-by-idCustomer/{idCustomer}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByCustomerId(@PathVariable Long idCustomer){
+        return new ResponseEntity<>(detailService.findAllOrderDetailByCustomerId(idCustomer),HttpStatus.OK);
+    }
+
 }

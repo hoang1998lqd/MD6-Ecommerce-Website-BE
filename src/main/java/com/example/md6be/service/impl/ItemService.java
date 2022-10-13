@@ -1,10 +1,12 @@
 package com.example.md6be.service.impl;
 
+import com.example.md6be.model.DTO.DTOItem;
 import com.example.md6be.model.Item;
 import com.example.md6be.repository.ItemRepository;
 import com.example.md6be.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,8 @@ public class ItemService implements IItemService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    DTOItemService dtoItemService;
 
     @Override
     public List<Item> findAll() {
@@ -40,6 +44,28 @@ public class ItemService implements IItemService {
         return itemRepository.findItemByCustomerId(id);
     }
 
+    @Transactional
+    @Override
+    public void deleteAll(List<Item> items) {
+        itemRepository.deleteAll(items);
+    }
+
+  // Tìm ra List ID của cửa hàng có tồn tại trong List Item trong giỏ hàng của người đang đăng nhập
+    @Override
+    public List<Long> findListIdShop(Long idShop) {
+        return itemRepository.findListIdShop(idShop);
+    }
+
+    // Tìm ra List Item của người đang đăng nhập được chia ra dựa vào Id của Cửa hàng
+    @Override
+    public List<Item> findAllItemByIdShop(Long idShop, Long idCustomer) {
+        return itemRepository.findAllItemByIdShop(idShop, idCustomer);
+    }
+
+    @Override
+    public List<DTOItem> findAllDTOItem(Long idCustomer) {
+        return dtoItemService.findAllDTOItem(idCustomer);
+    }
 
 
     // Phần xử lý giỏ hàng
