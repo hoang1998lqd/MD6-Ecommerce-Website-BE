@@ -59,7 +59,7 @@ public class CustomerPrinciple implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return emailAddress;
     }
 
     @Override

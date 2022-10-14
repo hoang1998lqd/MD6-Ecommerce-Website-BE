@@ -19,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -62,12 +63,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**");
         http.exceptionHandling().authenticationEntryPoint(restServicesEntryPoint());
-        http.authorizeRequests()
-                .antMatchers("/**/").permitAll()
-                //đặt url dưới quyền User, quản lý bởi Spring Security
-//                .antMatchers("/students**","/").hasAnyAuthority("ADMIN")
+        http.authorizeRequests().antMatchers("/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/customers/**").permitAll()
+//                .antMatchers("/api/products/**").access("hasAuthority('SELLER')")
+                .and().authorizeRequests().antMatchers("/api/products/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/api/customers/**").permitAll()
                 .anyRequest().authenticated()
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
         http.sessionManagement()
