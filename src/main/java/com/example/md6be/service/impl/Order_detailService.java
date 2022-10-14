@@ -2,6 +2,7 @@ package com.example.md6be.service.impl;
 
 import com.example.md6be.model.Order_detail;
 import com.example.md6be.repository.IOrder_detailRepository;
+import com.example.md6be.repository.IOrdersRepository;
 import com.example.md6be.service.IOrder_detailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class Order_detailService implements IOrder_detailService {
     @Autowired
     IOrder_detailRepository detailRepository;
+
 
     @Override
     public List<Order_detail> findAll() {
@@ -43,4 +45,15 @@ public class Order_detailService implements IOrder_detailService {
     public List<Order_detail> findAllByOrderId(Long id) {
         return detailRepository.findAllByOrderId(id);
     }
+
+    @Override
+    public List<Order_detail> findAllOrderDetailById(Long idShop) {
+        return detailRepository.findAllOrderDetailById(idShop);
+    }
+
+    @Override
+    public List<Order_detail> findAllOrderDetailByShopId(Long idShop) {
+        return detailRepository.findAllOrderDetailByShopId(idShop);
+    }
+
 }

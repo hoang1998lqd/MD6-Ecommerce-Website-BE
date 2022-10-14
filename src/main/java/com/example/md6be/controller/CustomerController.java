@@ -5,8 +5,10 @@ import com.example.md6be.jwt.JwtResponse;
 import com.example.md6be.jwt.JwtService;
 import com.example.md6be.model.Customer;
 import com.example.md6be.model.Role;
+import com.example.md6be.model.Voucher;
 import com.example.md6be.service.ICustomerService;
 import com.example.md6be.service.IRoleService;
+import com.example.md6be.service.impl.VoucherService;
 import com.example.md6be.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,8 @@ public class CustomerController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private VoucherService voucherService;
 
     @Autowired
     private EmailService emailService;
@@ -106,6 +110,8 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+//        iCustomerService.save(customer);
+//        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
         Customer customer1;
         try {
              customer1 = iCustomerService.save(customer);
@@ -131,6 +137,15 @@ public class CustomerController {
         Optional<Customer> customerOptional = iCustomerService.findById(id);
         if (customerOptional.isPresent()) {
             return new ResponseEntity<>("The customer has been deleted ", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/get-discount/{id}")
+    public ResponseEntity<?> getDiscount(@PathVariable("id") Long id) {
+        Optional<Voucher> optionalVoucher = voucherService.findById(id);
+        if (optionalVoucher.isPresent()) {
+            return new ResponseEntity<>(optionalVoucher.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

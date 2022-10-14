@@ -7,39 +7,22 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private Double price;
+    private Double discount;
     @Column(nullable = false)
-    private Integer amount;
-    @Column(nullable = false)
-    private String color;
-    @Column(nullable = false)
-    private String description;
-    @Column(nullable = false)
-    private Integer status = 1;
-    private int discount;
-
-
-    //    @JsonIgnore
-    @ManyToOne
-    private Brand brand;
-
-//    @JsonIgnore
-    @ManyToOne
-    private Category category;
-
+    private Long quantity;
     @ManyToOne
     private Customer customer;
+
 }

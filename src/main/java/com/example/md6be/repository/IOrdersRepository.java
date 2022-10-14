@@ -1,5 +1,6 @@
 package com.example.md6be.repository;
 
+import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,10 +22,13 @@ public interface IOrdersRepository extends JpaRepository<Orders, Long> {
     Long findNewOrderId();
 
     //Tìm kiếm đơn hàng của Cửa hàng đó
-    @Query(value = "select * from orders where shop_id = ?1", nativeQuery = true)
+    @Query(value = "select * from orders where shop_id = ?1 and status_exist = 1", nativeQuery = true)
     List<Orders> findAllOrderByShopId(Long idCustomer);
 
     @Query(value = "select * from orders where status_exist = 1 and id = ?1", nativeQuery = true)
     Orders rejectOrder(Long idOrder);
+
+
+
 
 }
