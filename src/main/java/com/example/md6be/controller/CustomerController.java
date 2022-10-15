@@ -78,10 +78,7 @@ public class CustomerController {
     @GetMapping("/find-customer-by-id/{idCustomer}")
     private ResponseEntity<Customer> findCustomerById(@PathVariable("idCustomer") Long idCustomer) {
         Optional<Customer> customerOptional = iCustomerService.findById(idCustomer);
-        if (customerOptional.isPresent()) {
-            return new ResponseEntity<>(customerOptional.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return customerOptional.map(customer -> new ResponseEntity<>(customer, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 
@@ -95,6 +92,7 @@ public class CustomerController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Customer currentUser = iCustomerService.findByEmailAddress(email).get();
         return ResponseEntity.ok(new JwtResponse(currentUser.getId(), jwt, currentUser.getName(),userDetails.getUsername(), userDetails.getAuthorities()));
+
     }
 
     @GetMapping("/hello")
