@@ -18,6 +18,8 @@ public interface IOrdersService extends IGeneralService<Orders> {
 
     Orders updateOrderAndQuantityProduct(Orders orders);
 
+    Orders updateOrderProduct(Orders orders);
+
     void updateStatusOrder(Long idOrder);
 
 

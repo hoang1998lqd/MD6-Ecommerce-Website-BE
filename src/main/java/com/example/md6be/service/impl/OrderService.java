@@ -124,6 +124,25 @@ public class OrderService implements IOrdersService {
         }
         return null;
     }
+
+    @Override
+    public Orders updateOrderProduct(Orders orders) {
+        Optional<Orders> ordersOptional = findById(orders.getId());
+        if (ordersOptional.isPresent()) {
+            List<Order_detail> order_details = iOrder_detailService.findAllByOrderId(ordersOptional.get().getId());
+            for (Order_detail order_detail : order_details) {
+                Optional<Product> productOptional = iProductService.findById(order_detail.getProduct().getId());
+                if (productOptional.isPresent()) {
+                    Product product = productOptional.get();
+                    int newQuantity = product.getAmount() - order_detail.getQuantity();
+                    product.setAmount(newQuantity);
+                    iProductService.save(product);
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void updateStatusOrder(Long idOrder) {
         Orders orders = ordersRepository.rejectOrder(idOrder);
