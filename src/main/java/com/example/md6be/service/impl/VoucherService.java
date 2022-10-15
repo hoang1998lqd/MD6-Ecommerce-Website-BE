@@ -1,5 +1,6 @@
 package com.example.md6be.service.impl;
 
+import com.example.md6be.model.Product;
 import com.example.md6be.model.Voucher;
 import com.example.md6be.repository.VoucherRepo;
 import com.example.md6be.service.IVoucherService;
@@ -14,6 +15,7 @@ public class VoucherService implements IVoucherService {
     @Autowired
     private VoucherRepo voucherRepo;
 
+
     @Override
     public Iterable<Voucher> findAllByCustomer_Id(Long id) {
         return voucherRepo.findAllByCustomer_Id(id);
@@ -21,7 +23,7 @@ public class VoucherService implements IVoucherService {
 
     @Override
     public List<Voucher> findAllByNameContaining(Long idCustomer, String name) {
-        return null;
+        return voucherRepo.findAllByNameContaining(idCustomer, "%" +name+"%");
     }
 
     @Override
@@ -37,6 +39,10 @@ public class VoucherService implements IVoucherService {
     @Override
     public Voucher save(Voucher voucher) {
         return voucherRepo.save(voucher);
+    }
+
+    public List<Voucher> saveAll(List<Voucher> vouchers) {
+        return voucherRepo.saveAll(vouchers);
     }
 
     @Override

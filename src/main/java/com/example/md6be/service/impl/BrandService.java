@@ -30,6 +30,11 @@ public class BrandService implements IBrandService {
     }
 
     @Override
+    public List<Brand> saveAll(List<Brand> t) {
+        return null;
+    }
+
+    @Override
     public void delete(Long id) {
         brandRepository.deleteById(id);
     }

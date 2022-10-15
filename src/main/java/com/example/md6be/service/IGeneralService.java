@@ -12,5 +12,7 @@ public interface IGeneralService<T>{
 
     T save (T t);
 
+    List<T> saveAll(List<T> t);
+
     void delete(Long id);
 }

@@ -43,6 +43,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public List<Category> saveAll(List<Category> t) {
+        return null;
+    }
+
+    @Override
     public List<DTOCategoryBrand> findBrandByCategoryId() {
         return dtoCategoryAndBrandService.findBrandByCategoryId();
     }

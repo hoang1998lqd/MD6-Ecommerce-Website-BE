@@ -33,4 +33,9 @@ public class RoleService implements IRoleService {
     public void delete(Long id) {
 
     }
+
+    @Override
+    public List<Role> saveAll(List<Role> t) {
+        return null;
+    }
 }

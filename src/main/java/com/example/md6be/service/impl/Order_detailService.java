@@ -56,4 +56,5 @@ public class Order_detailService implements IOrder_detailService {
         return detailRepository.findAllOrderDetailByShopId(idShop);
     }
 
+
 }

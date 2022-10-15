@@ -82,4 +82,9 @@ public class CustomerService implements ICustomerService {
     public List<Customer> findCustomerHaveShop() {
         return customerRepository.findCustomerHaveShop();
     }
+
+    @Override
+    public List<Customer> saveAll(List<Customer> t) {
+        return null;
+    }
 }

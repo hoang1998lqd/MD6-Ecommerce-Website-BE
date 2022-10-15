@@ -48,4 +48,8 @@ public class CartService implements ICartService {
         cartRepository.deleteById(id);
     }
 
+    @Override
+    public List<Cart> saveAll(List<Cart> t) {
+        return null;
+    }
 }

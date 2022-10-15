@@ -102,4 +102,8 @@ public class ItemService implements IItemService {
         }
     }
 
+    @Override
+    public List<Item> saveAll(List<Item> t) {
+        return null;
+    }
 }
