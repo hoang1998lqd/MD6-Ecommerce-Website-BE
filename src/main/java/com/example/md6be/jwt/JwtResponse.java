@@ -9,15 +9,18 @@ public class JwtResponse {
     private String token;
     private String type = "Bearer";
     private String username;
+    private String email;
     private Collection<? extends GrantedAuthority> roles;
 
     public JwtResponse() {
     }
 
-    public JwtResponse(Long id, String token, String username, Collection<? extends GrantedAuthority> roles) {
+
+    public JwtResponse(Long id, String token, String username, String email, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.token = token;
         this.username = username;
+        this.email = email;
         this.roles = roles;
     }
 
@@ -51,6 +54,14 @@ public class JwtResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Collection<? extends GrantedAuthority> getRoles() {

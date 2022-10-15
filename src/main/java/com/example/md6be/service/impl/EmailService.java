@@ -48,7 +48,7 @@ public class EmailService implements IEmailService {
         message.setText("Chúc mừng bạn đã đăng ký tài khoản tại shop thành công \n"
                 + "Thông tin tài khoản: " + customer.getName() + "\n"
                 + "Email đăng ký: " + customer.getEmailAddress() + "\n"
-                + "Mật khẩu: " + customer.getPassword() + "\n"
+//                + "Mật khẩu: " + customer.getPassword() + "\n"
                 + "Thời gian tạo: " + formattedDate + "\n"
                 + "Mọi thông tin phản hồi lại tại đây \n"
                 + "Cảm ơn bạn đã tham gia shop!");

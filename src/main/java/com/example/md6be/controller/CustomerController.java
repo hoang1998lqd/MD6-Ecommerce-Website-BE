@@ -94,7 +94,7 @@ public class CustomerController {
         String jwt = jwtService.generateTokenLogin(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Customer currentUser = iCustomerService.findByEmailAddress(email).get();
-        return ResponseEntity.ok(new JwtResponse(currentUser.getId(), jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+        return ResponseEntity.ok(new JwtResponse(currentUser.getId(), jwt, currentUser.getName(),userDetails.getUsername(), userDetails.getAuthorities()));
     }
 
     @GetMapping("/hello")
@@ -114,16 +114,16 @@ public class CustomerController {
 //        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
         Customer customer1;
         try {
-            customer1 = iCustomerService.save(customer);
+             customer1 = iCustomerService.save(customer);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
         try {
-            emailService.sendEmail(customer);
-        }catch (Exception e){
+            emailService.sendEmail(customer1);
+        } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(customer1,HttpStatus.CREATED);
+        return new ResponseEntity<>(customer1, HttpStatus.CREATED);
     }
 
     @GetMapping("/role")
