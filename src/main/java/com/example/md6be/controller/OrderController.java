@@ -91,6 +91,20 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    // Xác nhận khi nhận được hàng
+    @PutMapping("/order-customer/{idOrder}")
+    private ResponseEntity<Orders> updateOrderProduct(@PathVariable Long idOrder) {
+        Optional<Orders> ordersOptional = ordersService.findById(idOrder);
+        if (ordersOptional.isPresent()) {
+            Orders order = ordersOptional.get();
+            order.setStatus_order(2);
+            order.setStatus_pay(1);
+            ordersService.save(order);
+            return new ResponseEntity<>(ordersService.updateOrderAndQuantityProduct(order), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
     @PutMapping("/{idOrder}")
     private ResponseEntity<?> updateOrderStatusExist(@PathVariable Long idOrder) {
@@ -106,21 +120,37 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     // Lấy ID mới nhất vừa tạo của Orders
     @GetMapping("/id-new-order")
     private ResponseEntity<Long> findNewOrderId() {
         return new ResponseEntity<>(ordersService.findNewOrderId(), HttpStatus.OK);
     }
-    // xac nhan
-
 
     //Tìm kiếm thông tin đơn hàng của cửa hàng đó
+
     @GetMapping("/shop/{idCustomer}")
     private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer) {
         return new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer), HttpStatus.OK);
     }
 
+    // tìm kiếm đơn hàng còn tồn taị theo id người dùng
+    @GetMapping("/order-customer/{idCustomer}")
+    private ResponseEntity<List<Orders>> findAllOrderByOrderId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findOrdersByStatusAndCustomer(idCustomer), HttpStatus.OK);
+    }
+
+
+    // tìm kiếm tất cả order-detail theo 1 order
+    @GetMapping("/order-detail-order/{idOrder}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByOrder(@PathVariable Long idOrder) {
+        return new ResponseEntity<>(detailService.findAllByOrderId(idOrder), HttpStatus.OK);
+    }
+
+    // tìm kiếm tất cả order-detail theo idCustomer
+    @GetMapping("/order-detail-by-idCustomer/{idCustomer}")
+    private ResponseEntity<List<Order_detail>> findAllOrderDetailByCustomerId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(detailService.findAllOrderDetailByCustomerId(idCustomer), HttpStatus.OK);
+    }
 
     //Tìm kiếm thông tin chi tiết đơn hàng của NGƯỜI DÙNG đó
     @GetMapping("/shop&{idCustomer}")

@@ -37,13 +37,18 @@ public class Order_detailService implements IOrder_detailService {
     }
 
     @Override
+    public List<Order_detail> findAllByOrderId(Long idOrder) {
+        return detailRepository.findAllByOrderId(idOrder);
+    }
+
+    @Override
     public List<Order_detail> saveAll(List<Order_detail> order_details) {
         return detailRepository.saveAll(order_details);
     }
 
     @Override
-    public List<Order_detail> findAllByOrderId(Long id) {
-        return detailRepository.findAllByOrderId(id);
+    public List<Order_detail> findAllOrderDetailByCustomerId(Long idCustomer) {
+        return detailRepository.findAllOrderDetailByCustomerId(idCustomer);
     }
 
     @Override
@@ -55,5 +60,4 @@ public class Order_detailService implements IOrder_detailService {
     public List<Order_detail> findAllOrderDetailByShopId(Long idShop) {
         return detailRepository.findAllOrderDetailByShopId(idShop);
     }
-
 }
