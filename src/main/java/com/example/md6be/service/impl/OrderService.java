@@ -30,12 +30,13 @@ public class OrderService implements IOrdersService {
     @Autowired
     IOrder_detailService iOrder_detailService;
 
+
     @Override
     public List<Orders> findAll() {
         List<Orders> orders = ordersRepository.findAll();
         List<Orders> ordersList = new ArrayList<>();
-        for (Orders order : orders){
-            if (order.getStatus_exist() != 0){
+        for (Orders order : orders) {
+            if (order.getStatus_exist() != 0) {
                 ordersList.add(order);
             }
         }
@@ -61,7 +62,7 @@ public class OrderService implements IOrdersService {
     @Override
     public void delete(Long id) {
         List<Orders> orders = findOrdersByCustomerId(id);
-        for (Orders order : orders){
+        for (Orders order : orders) {
             order.setStatus_exist(0);
             save(order);
         }
@@ -80,6 +81,10 @@ public class OrderService implements IOrdersService {
 
 
     @Override
+
+//    public List<Orders> findAllOrderByShopId(Long idShop) {
+//        return ordersRepository.findAllOrderByShopId(idShop);
+
     public List<Orders> findAllOrderByShopId(Long idCustomer) {
         List<Orders> orders = ordersRepository.findAllOrderByShopId(idCustomer);
         orders.sort(new Comparator<Orders>() {
@@ -95,15 +100,19 @@ public class OrderService implements IOrdersService {
             }
         });
         return orders;
+
     }
 
     @Override
+    public List<Orders> findOrdersByStatusAndCustomer(Long idCustomer) {
+        return ordersRepository.findOrdersByStatusAndCustomer(idCustomer);
+    }
+
     public void rejectOrder(Long idOrder) {
         Orders orders = ordersRepository.rejectOrder(idOrder);
         orders.setStatus_exist(0);
         save(orders);
     }
-
 
 
     // Cập nhật số lượng khi sản phẩm được CỬA HÀNG ĐÓ XÁC NHẬN SẼ GỬI HÀNG
@@ -124,6 +133,7 @@ public class OrderService implements IOrdersService {
         }
         return null;
     }
+
 
     @Override
     public Orders updateOrderProduct(Orders orders) {

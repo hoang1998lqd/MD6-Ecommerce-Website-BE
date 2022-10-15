@@ -48,7 +48,6 @@ public class Orders implements Comparator<Orders> {
     @ManyToOne
     private Customer customer;
 
-
     @Override
     public int compare(Orders t, Orders t1) {
         return (int) (t1.getId() - t.getId());
