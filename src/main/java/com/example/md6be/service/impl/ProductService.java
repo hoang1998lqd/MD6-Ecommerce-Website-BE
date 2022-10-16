@@ -1,6 +1,7 @@
 package com.example.md6be.service.impl;
 
 import com.example.md6be.model.DTO.DTOProduct;
+import com.example.md6be.model.DTO.DTOProductSold;
 import com.example.md6be.model.Product;
 import com.example.md6be.repository.ProductRepository;
 import com.example.md6be.service.IProductService;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductService implements IProductService {
@@ -139,7 +137,20 @@ public class ProductService implements IProductService {
     public List<DTOProduct> findAllDTOProductByOrderId(Long idOrder) {
         return dtoProductService.findAllDTOProductByOrderId(idOrder);
     }
+    @Override
+    public DTOProductSold findSoldByProductId(Long idProduct) {
+        return new DTOProductSold(idProduct,productRepository.findSoldByProductId(idProduct));
+    }
 
-
+    @Override
+    public List<DTOProductSold> findAllSoldByProductId() {
+        List<DTOProductSold> dtoProductSoldList = new ArrayList<>();
+        List<Long> listProductId = productRepository.findProductIdInOrderDetail();
+        for (Long aLong : listProductId) {
+            DTOProductSold dtoProductSold = findSoldByProductId(aLong);
+            dtoProductSoldList.add(dtoProductSold);
+        }
+        return dtoProductSoldList;
+    }
 
 }
