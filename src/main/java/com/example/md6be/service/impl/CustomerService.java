@@ -82,4 +82,6 @@ public class CustomerService implements ICustomerService {
     public List<Customer> findCustomerHaveShop() {
         return customerRepository.findCustomerHaveShop();
     }
+
+
 }

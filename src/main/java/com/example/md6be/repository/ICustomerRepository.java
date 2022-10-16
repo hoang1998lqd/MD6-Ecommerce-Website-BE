@@ -29,5 +29,6 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
 
    List<Customer> findAllBy();
 
+   Optional<Customer> findById(Long id);
 
 }
