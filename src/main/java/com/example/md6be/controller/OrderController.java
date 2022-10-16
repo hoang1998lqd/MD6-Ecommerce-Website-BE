@@ -2,6 +2,7 @@ package com.example.md6be.controller;
 
 
 import com.example.md6be.model.Cart;
+import com.example.md6be.model.DTO.DTOOrder;
 import com.example.md6be.model.Item;
 import com.example.md6be.model.Order_detail;
 import com.example.md6be.model.Orders;
@@ -85,7 +86,6 @@ public class OrderController {
             int statusOrder = 1;
             Orders order = ordersOptional.get();
             order.setStatus_order(statusOrder);
-            ordersService.save(order);
             return new ResponseEntity<>(ordersService.updateOrderAndQuantityProduct(order), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -99,8 +99,7 @@ public class OrderController {
             Orders order = ordersOptional.get();
             order.setStatus_order(2);
             order.setStatus_pay(1);
-            ordersService.save(order);
-            return new ResponseEntity<>(ordersService.updateOrderAndQuantityProduct(order), HttpStatus.OK);
+            return new ResponseEntity<>(ordersService.saveOrder(order), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -132,11 +131,19 @@ public class OrderController {
     private ResponseEntity<List<Orders>> findAllOrderByShopId(@PathVariable Long idCustomer) {
         return new ResponseEntity<>(ordersService.findAllOrderByShopId(idCustomer), HttpStatus.OK);
     }
+    @GetMapping("/dtoOrder/{idCustomer}")
+    private ResponseEntity<List<DTOOrder>> findAllDTOOrderByShopId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findAllDTOOrderByShopId(idCustomer), HttpStatus.OK);
+    }
+    @GetMapping("/dtoOrder-customer/{idCustomer}")
+    private ResponseEntity<List<DTOOrder>> findAllDTOOrderByCustomerId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findAllDTOOrderByCustomerId(idCustomer), HttpStatus.OK);
+    }
 
     // tìm kiếm đơn hàng còn tồn taị theo id người dùng
     @GetMapping("/order-customer/{idCustomer}")
-    private ResponseEntity<List<Orders>> findAllOrderByOrderId(@PathVariable Long idCustomer) {
-        return new ResponseEntity<>(ordersService.findOrdersByStatusAndCustomer(idCustomer), HttpStatus.OK);
+    private ResponseEntity<List<DTOOrder>> findAllOrderByOrderId(@PathVariable Long idCustomer) {
+        return new ResponseEntity<>(ordersService.findAllDTOOrderByCustomerId(idCustomer), HttpStatus.OK);
     }
 
 
