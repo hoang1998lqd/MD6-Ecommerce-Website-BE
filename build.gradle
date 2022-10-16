@@ -53,8 +53,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose
     implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: '5.7.2'
 
-
-
 }
 
 tasks.named('test') {
