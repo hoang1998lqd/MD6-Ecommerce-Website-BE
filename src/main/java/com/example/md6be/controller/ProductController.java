@@ -1,6 +1,7 @@
 package com.example.md6be.controller;
 
 import com.example.md6be.model.DTO.DTOProduct;
+import com.example.md6be.model.DTO.DTOProductSold;
 import com.example.md6be.model.ImageURL;
 import com.example.md6be.model.Product;
 import com.example.md6be.service.IProductService;
@@ -150,5 +151,11 @@ public class ProductController {
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // Tìm kiếm số lượng đã bán ra của cửa hàng
+    @GetMapping("/product-sold")
+    private ResponseEntity<List<DTOProductSold>>findAllSoldByProductId(){
+        return new ResponseEntity<>(iProduct.findAllSoldByProductId(),HttpStatus.OK);
     }
 }

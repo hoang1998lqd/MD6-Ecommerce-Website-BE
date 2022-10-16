@@ -32,9 +32,6 @@ public interface IOrdersRepository extends JpaRepository<Orders, Long> {
     @Query(value = "select * from orders where status_exist = 1 and customer_id = ?1", nativeQuery = true)
     List<Orders> findOrdersByStatusAndCustomer( Long idCustomer);
 
-//    @Query(value = "select * from orders where shop_id = ?1 and status_exist = 1", nativeQuery = true)
-//    List<Orders> findAllOrderByShopId(Long idCustomer);
-
 
     @Query(value = "select * from orders where status_exist = 1 and id = ?1", nativeQuery = true)
     Orders rejectOrder(Long idOrder);

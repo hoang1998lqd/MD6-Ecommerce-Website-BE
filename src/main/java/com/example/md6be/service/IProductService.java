@@ -1,6 +1,7 @@
 package com.example.md6be.service;
 
 import com.example.md6be.model.DTO.DTOProduct;
+import com.example.md6be.model.DTO.DTOProductSold;
 import com.example.md6be.model.Product;
 import org.springframework.data.domain.Pageable;
 
@@ -24,6 +25,8 @@ public interface IProductService extends IGeneralService<Product> {
     List<DTOProduct> findAllDTOProductByCategoryIdAndBrandId(Long idCustomer, Long idCategory, Long idBrand);
     List<Product> findAllProductByOrderId(Long idOrder);
     List<DTOProduct> findAllDTOProductByOrderId(Long idOrder);
+    DTOProductSold findSoldByProductId(Long idProduct);
+    List<DTOProductSold> findAllSoldByProductId();
 
 
 
