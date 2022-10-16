@@ -51,6 +51,7 @@ public class DTOProductService {
         return iProductService.findProductByPriceBetween(idCustomer,priceMin, priceMax);
     }
 
+
     // Tìm kiếm sản phẩm theo ID của đơn hàng
     private List<Product> findAllProductByOrderId(Long idOrder){
         return iProductService.findAllProductByOrderId(idOrder);
@@ -129,4 +130,7 @@ public class DTOProductService {
         ArrayList<Product> products = (ArrayList<Product>)findAllProductByOrderId(idOrder);
         return getImg(dtoProducts,products);
     }
+
+
+
 }

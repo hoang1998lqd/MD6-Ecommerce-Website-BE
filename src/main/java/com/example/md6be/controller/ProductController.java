@@ -130,25 +130,27 @@ public class ProductController {
     private ResponseEntity<List<DTOProduct>> findAllProductByCategoryIdAndBrandId(@PathVariable Long idCustomer,
                                                                                   @PathVariable Long idCategory,
                                                                                   @PathVariable Long idBrand) {
-        return new ResponseEntity<>(iProduct.findAllDTOProductByCategoryIdAndBrandId(idCustomer,idCategory,idBrand), HttpStatus.OK);
+        return new ResponseEntity<>(iProduct.findAllDTOProductByCategoryIdAndBrandId(idCustomer, idCategory, idBrand), HttpStatus.OK);
     }
 
     // Tìm kiếm sản phẩm theo ID của đơn hàng
     @GetMapping("/orders/{idOrder}")
-    private ResponseEntity<List<DTOProduct>>findAllDTOProductByOrderId(@PathVariable Long idOrder){
-        return new ResponseEntity<>(iProduct.findAllDTOProductByOrderId(idOrder),HttpStatus.OK);
+    private ResponseEntity<List<DTOProduct>> findAllDTOProductByOrderId(@PathVariable Long idOrder) {
+        return new ResponseEntity<>(iProduct.findAllDTOProductByOrderId(idOrder), HttpStatus.OK);
     }
 
     @GetMapping("/detail-product/{idCustomer}&{idProduct}")
-    private ResponseEntity<?> detailProduct(@PathVariable("idCustomer") Long idCustomer, @PathVariable("idProduct") Long id){
+    private ResponseEntity<?> detailProduct(@PathVariable("idCustomer") Long idCustomer, @PathVariable("idProduct") Long id) {
         List<DTOProduct> dtoProductList = iProduct.findAllProductNotCustomerId(idCustomer);
         DTOProduct product;
-        for (DTOProduct dtoProduct: dtoProductList){
-            if (dtoProduct.getProduct().getId() == id){
+        for (DTOProduct dtoProduct : dtoProductList) {
+            if (dtoProduct.getProduct().getId() == id) {
                 product = dtoProduct;
                 return new ResponseEntity<>(product, HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+
 }

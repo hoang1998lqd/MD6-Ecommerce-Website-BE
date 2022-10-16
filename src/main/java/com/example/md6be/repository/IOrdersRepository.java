@@ -2,6 +2,7 @@ package com.example.md6be.repository;
 
 import com.example.md6be.model.Orders;
 
+import com.example.md6be.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,5 +27,6 @@ public interface IOrdersRepository extends JpaRepository<Orders, Long> {
 
     @Query(value = "select * from orders where status_exist = 1 and id = ?1", nativeQuery = true)
     Orders rejectOrder(Long idOrder);
+
 
 }
