@@ -27,6 +27,7 @@ public interface IProductService extends IGeneralService<Product> {
     List<DTOProduct> findAllDTOProductByOrderId(Long idOrder);
     DTOProductSold findSoldByProductId(Long idProduct);
     List<DTOProductSold> findAllSoldByProductId();
+    List<Long> findProductIdSoldForCustomer(Long idCustomer);
 
 
 

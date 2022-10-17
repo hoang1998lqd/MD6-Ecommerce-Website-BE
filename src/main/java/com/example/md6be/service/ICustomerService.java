@@ -23,4 +23,6 @@ public interface ICustomerService extends IGeneralService<Customer>, UserDetails
     List<Customer> findCustomerHaveShop();
 
     Optional<Customer> findById(Long id);
+    List<Customer> findAllCustomerByStatus();
+
 }

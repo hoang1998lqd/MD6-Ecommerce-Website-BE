@@ -51,7 +51,7 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<List<Customer>> findAll() {
-        return new ResponseEntity<>(iCustomerService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(iCustomerService.findAllCustomerByStatus(), HttpStatus.OK);
     }
 
     @GetMapping("/id-new-customer")
@@ -68,6 +68,16 @@ public class CustomerController {
     //UPdate Img
     @PutMapping("/update-customer/{id}")
     private ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer customer) {
+        Optional<Customer> customerOptional = iCustomerService.findById(id);
+        if (customerOptional.isPresent()) {
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+            return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/update-profile/{id}")
+    private ResponseEntity<?> updateProfileCustomer(@PathVariable("id") Long id, @RequestBody Customer customer) {
         Optional<Customer> customerOptional = iCustomerService.findById(id);
         if (customerOptional.isPresent()) {
             return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.OK);
@@ -108,8 +118,6 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<?> responseEntity(@RequestBody Customer customer) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-//        iCustomerService.save(customer);
-//        return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
         Customer customer1;
         try {
              customer1 = iCustomerService.save(customer);

@@ -154,4 +154,9 @@ public class ProductService implements IProductService {
         return dtoProductSoldList;
     }
 
+    @Override
+    public List<Long> findProductIdSoldForCustomer(Long idCustomer) {
+        return productRepository.findProductIdSoldForCustomer(idCustomer);
+    }
+
 }

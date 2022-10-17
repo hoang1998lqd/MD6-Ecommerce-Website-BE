@@ -158,4 +158,8 @@ public class ProductController {
     private ResponseEntity<List<DTOProductSold>>findAllSoldByProductId(){
         return new ResponseEntity<>(iProduct.findAllSoldByProductId(),HttpStatus.OK);
     }
+    @GetMapping("/product-sold-customer/{idCustomer}")
+    private ResponseEntity<List<Long>>findProductIdSoldForCustomer(@PathVariable Long idCustomer){
+        return new ResponseEntity<>(iProduct.findProductIdSoldForCustomer(idCustomer),HttpStatus.OK);
+    }
 }

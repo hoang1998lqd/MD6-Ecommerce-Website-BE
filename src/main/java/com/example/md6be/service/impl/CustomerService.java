@@ -11,8 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CustomerService implements ICustomerService {
@@ -27,6 +26,18 @@ public class CustomerService implements ICustomerService {
     @Override
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
+    }
+
+    @Override
+    public List<Customer> findAllCustomerByStatus() {
+        List<Customer> customerList = customerRepository.findAllCustomerByStatus();
+        customerList.sort(new Comparator<Customer>() {
+            @Override
+            public int compare(Customer customer, Customer t1) {
+                return t1.getStatus() - customer.getStatus();
+            }
+        });
+        return customerList;
     }
 
     @Override

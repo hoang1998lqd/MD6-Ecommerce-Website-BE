@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.Comparator;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Customer implements Comparator<Customer> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,5 +46,8 @@ public class Customer {
     private Set<Role> role;
 
 
-
+    @Override
+    public int compare(Customer customer, Customer t1) {
+        return t1.getStatus() - customer.getStatus();
+    }
 }

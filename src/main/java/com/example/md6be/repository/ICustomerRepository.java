@@ -27,8 +27,12 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true)
     List<Customer> findCustomerHaveShop();
 
-   List<Customer> findAllBy();
 
    Optional<Customer> findById(Long id);
+
+   // Tìm kiếm tất cả Người dùng có status = 1;
+    @Query(value = "select * from customer where not status = 0;",
+            nativeQuery = true)
+    List<Customer> findAllCustomerByStatus();
 
 }

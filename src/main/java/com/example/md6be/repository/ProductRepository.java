@@ -64,9 +64,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             nativeQuery = true)
     Integer findSoldByProductId(Long idProduct);
 
-    @Query(value = "select product_id from order_detail group by product_id;",
+    @Query(value = "select product_id from order_detail group by product_id",
             nativeQuery = true)
     List<Long> findProductIdInOrderDetail();
+
+    @Query(value = "select product_id from order_detail where orders_id in (select id from orders where customer_id = ?1) group by product_id",
+            nativeQuery = true)
+    List<Long> findProductIdSoldForCustomer(Long idCustomer);
 
 
 }
