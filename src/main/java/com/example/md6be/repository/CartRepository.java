@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart,Long> {
-    @Query(value = "select * from cart where customer_id = ?1", nativeQuery = true)
-    List<Cart> findCartByCustomerId(@Param("id") Long id);
+//    @Query(value = "select * from cart where customer_id = ?1", nativeQuery = true)
+    List<Cart> findAllByCustomerId(Long id);
 }

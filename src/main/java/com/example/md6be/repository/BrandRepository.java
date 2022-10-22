@@ -13,5 +13,4 @@ public interface BrandRepository extends JpaRepository<Brand,Long> {
             nativeQuery = true)
     List<Brand> findBrandsByCategoryId(Long id);
 
-
 }

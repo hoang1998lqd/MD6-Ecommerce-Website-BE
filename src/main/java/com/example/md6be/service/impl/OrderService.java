@@ -10,7 +10,6 @@ import com.example.md6be.repository.ProductRepository;
 import com.example.md6be.service.IOrder_detailService;
 import com.example.md6be.service.IOrdersService;
 import com.example.md6be.service.IProductService;
-import jdk.vm.ci.meta.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
